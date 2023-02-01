@@ -11,6 +11,7 @@ export class Header {
 
     constructor(page: Page) {
         this.page = page;
+        this.appLogo = page.locator('div.app_logo');
         this.hamburgerMenuButton = page.getByRole('button', { name: 'Open Menu' });
         this.logoutMenuEntry = page.getByRole('link', { name: 'Logout' });
         this.hamburgerMenuCloseButton = page.getByRole('button', { name: 'Close Menu' });

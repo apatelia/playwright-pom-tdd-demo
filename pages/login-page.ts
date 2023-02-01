@@ -19,7 +19,7 @@ export class LoginPage {
         await this.page.goto('/');
     }
 
-    async doLogin(page: Page, username: string, password: string) : Promise<void> {
+    async doLogin(username: string, password: string) : Promise<void> {
         await this.username.fill(username);
         await this.password.fill(password);
         await this.loginButton.click();

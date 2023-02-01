@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
     // Login and go to Products page.
     const loginPage = new LoginPage(page);
     await loginPage.goto();
-    await loginPage.doLogin(page, 'standard_user', 'secret_sauce');
+    await loginPage.doLogin('standard_user', 'secret_sauce');
 });
 
 

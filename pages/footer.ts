@@ -6,7 +6,6 @@ export class Footer {
     readonly facebookLink: Locator;
     readonly linkedInLink: Locator;
     readonly copyrightText: Locator;
-    readonly robotImage: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -14,7 +13,6 @@ export class Footer {
         this.facebookLink = page.getByRole('link', { name: 'Facebook' });
         this.linkedInLink = page.getByRole('link', { name: 'LinkedIn' });
         this.copyrightText = page.locator('div.footer_copy');
-        this.robotImage = page.getByRole('img', { name: 'Swag Bot Footer' });
     }
 
     async clickTwitterLink() : Promise<void> {

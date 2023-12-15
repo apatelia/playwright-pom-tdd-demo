@@ -15,4 +15,11 @@ npm install
 4. Run test(s).
 ```sh
 npx playwright test
+
+# or 
+npm run test
+```
+5. View the test execution report.
+```sh
+npm run report
 ```

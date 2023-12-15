@@ -26,17 +26,25 @@ for (const user of valid_users) {
     // Test name/title should be unique for each parameter.
     test(`Login with valid credentials => '${username}' as user name and '${password}' as password @login @valid_creds`, async ({ page },) => {
         const loginPage = new LoginPage(page);
-        await loginPage.goto();
-        await loginPage.doLogin(username, password);
+        
+        await test.step(`User visits the Login Page`, async () => {
+            await loginPage.goto();
+        }, { box: true });
 
-        await expect(page).toHaveURL(/.*inventory.html/);
+        await test.step(`User tries to login using a valid username and password combination`, async () => {
+            await loginPage.doLogin(username, password);
+        }, { box: true });
+        
+        await test.step(`User should be logged in successfully`, async () => {
+            await expect(page).toHaveURL(/.*inventory.html/);
+        }, { box: true });
 
-        const productPage = new ProductsPage(page);
-        await expect(productPage.productHeading).toBeVisible();
-
-        productPage.header.doLogout();
-
-        await expect(loginPage.loginButton).toBeVisible();
+        await test.step(`User should be able to log out from products page`, async () => {
+            const productPage = new ProductsPage(page);
+            await expect(productPage.productHeading).toBeVisible();
+            await productPage.header.doLogout();
+            await expect(loginPage.loginButton).toBeVisible();
+        }, { box: true });
     });
 }
 
@@ -47,23 +55,37 @@ for (const user of invalid_users) {
     // Test name/title should be unique for each parameter.
     test(`Login should fail with invalid credentials => '${username}' as user name and '${password}' as password @login @invalid_creds`, async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.goto();
-        await loginPage.doLogin(username, password);
 
-        await expect(loginPage.errorMessage).toBeVisible();
+        await test.step(`User visits the Login Page`, async () => {
+            await loginPage.goto();
+        }, { box: true });
 
-        const errorText = await loginPage.errorMessage.textContent();
-        expect(errorText).toEqual('Epic sadface: Username and password do not match any user in this service');
+        await test.step(`User tries to login using an invalid username and password combination`, async () => {
+            await loginPage.doLogin(username, password);
+        }, { box: true });
+
+        await test.step(`User must not be logged in and should see the error message`, async () => {
+            await expect(loginPage.errorMessage).toBeVisible();
+            const errorText = await loginPage.errorMessage.textContent();
+            expect(errorText).toEqual('Epic sadface: Username and password do not match any user in this service');
+        }, { box: true });
     });
 }
 
 test('Locked out user should not be able to login with valid credentials @login @locked_out_user', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.doLogin(locked_out_user.username, locked_out_user.password);
 
-    await expect(loginPage.errorMessage).toBeVisible();
+    await test.step(`User visits the Login Page`, async () => {
+        await loginPage.goto();
+    }, { box: true });
 
-    const errorText = await loginPage.errorMessage.textContent();
-    expect(errorText).toEqual('Epic sadface: Sorry, this user has been locked out.');
+    await test.step(`User tries to login using an invalid username and password combination`, async () => {
+        await loginPage.doLogin(locked_out_user.username, locked_out_user.password);
+    }, { box: true });
+
+    await test.step(`User must not be logged in and should see an appropriate error message`, async () => {
+        await expect(loginPage.errorMessage).toBeVisible();
+        const errorText = await loginPage.errorMessage.textContent();
+        expect(errorText).toEqual('Epic sadface: Sorry, this user has been locked out.');
+    }, { box: true });
 });

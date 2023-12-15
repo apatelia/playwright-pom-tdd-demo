@@ -32,9 +32,14 @@ export class Header {
         await this.cartLink.click();
     }
 
-    async getCartItemCount() : Promise<number> {
-        const itemCount = await this.cartItemCount.textContent();
+    async getCartItemCount(): Promise<number> {
+        let itemCount = 0;
 
-        return +itemCount!;
+        if (await this.cartItemCount.isVisible()) {
+            const count = await this.cartItemCount.textContent();
+            itemCount = +count!;
+        }
+
+        return itemCount;
     }
 }

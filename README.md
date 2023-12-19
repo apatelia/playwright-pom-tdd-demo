@@ -12,14 +12,18 @@ cd playwright-pom-tdd-demo
 ```sh
 npm install
 ```
-4. Run test(s).
+4. Install browsers.
+```sh
+npx playwright install
+```
+5. Run test(s).
 ```sh
 npx playwright test
 
 # or 
 npm run test
 ```
-5. View the test execution report.
+6. View the test execution report.
 ```sh
 npm run report
 ```

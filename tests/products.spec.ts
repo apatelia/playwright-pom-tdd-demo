@@ -123,6 +123,6 @@ test('Footer: Copyright text is visible and is correct', async ({ page }) => {
     }, { box: true });
 
     await test.step(`Copyright text should be correct`, async () => {
-        expect(await productPage.footer.getCopyrightTextContent()).toEqual('© 2023 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy');
+        expect(await productPage.footer.getCopyrightTextContent()).toEqual('© 2024 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy');
     }, { box: true });
 });

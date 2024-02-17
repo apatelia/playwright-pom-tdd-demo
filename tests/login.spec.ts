@@ -26,7 +26,7 @@ for (const user of valid_users) {
     // Test name/title should be unique for each parameter.
     test(`Login with valid credentials => '${username}' as user name and '${password}' as password @login @valid_creds`, async ({ page },) => {
         const loginPage = new LoginPage(page);
-        
+
         await test.step(`User visits the Login Page`, async () => {
             await loginPage.goto();
         }, { box: true });
@@ -34,7 +34,7 @@ for (const user of valid_users) {
         await test.step(`User tries to login using a valid username and password combination`, async () => {
             await loginPage.doLogin(username, password);
         }, { box: true });
-        
+
         await test.step(`User should be logged in successfully`, async () => {
             await expect(page).toHaveURL(/.*inventory.html/);
         }, { box: true });
@@ -79,7 +79,7 @@ test('Locked out user should not be able to login with valid credentials @login 
         await loginPage.goto();
     }, { box: true });
 
-    await test.step(`User tries to login using an invalid username and password combination`, async () => {
+    await test.step(`User tries to login using a valid but disabled username and password combination`, async () => {
         await loginPage.doLogin(locked_out_user.username, locked_out_user.password);
     }, { box: true });
 

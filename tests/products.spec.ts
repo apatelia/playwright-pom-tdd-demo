@@ -76,7 +76,7 @@ test('Footer: Twitter/X link should be present and open SauceLab`s Twitter page'
         const twitterPage = await twitterPagePromise;
         await twitterPage.waitForLoadState();
     
-        await expect(twitterPage).toHaveURL('https://twitter.com/saucelabs');
+        await expect(twitterPage).toHaveURL('https://x.com/saucelabs');
     }, { box: true });
 });
 

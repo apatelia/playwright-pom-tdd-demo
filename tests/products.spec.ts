@@ -19,7 +19,7 @@ test('Add a product to the cart @products', async ({ page }) => {
     await test.step(`User adds a product to an empty cart`, async () => {
         await productPage.addProductToCart(productName);
     }, { box: true });
-    
+
     await test.step(`Cart count must be increased to 1`, async () => {
         const cartItemCount = await productPage.header.getCartItemCount();
         expect(cartItemCount).toEqual(1);
@@ -72,10 +72,10 @@ test('Footer: Twitter/X link should be present and open SauceLab`s Twitter page'
     await test.step(`Twitter/X link should open SauceLab's Twitter/X page, when clicked`, async () => {
         const twitterPagePromise = page.context().waitForEvent('page');
         await productPage.footer.clickTwitterLink();
-    
+
         const twitterPage = await twitterPagePromise;
         await twitterPage.waitForLoadState();
-    
+
         await expect(twitterPage).toHaveURL('https://x.com/saucelabs');
     }, { box: true });
 });
@@ -90,10 +90,10 @@ test('Footer: Facebook link should be present and open SauceLab`s Facebook page'
     await test.step(`Facebook link should open SauceLab's Facebook page, when clicked`, async () => {
         const facebookPagePromise = page.context().waitForEvent('page');
         await productPage.footer.clickFacebookLink();
-    
+
         const facebookPage = await facebookPagePromise;
         await facebookPage.waitForLoadState();
-    
+
         await expect(facebookPage).toHaveURL('https://www.facebook.com/saucelabs');
     }, { box: true });
 });
@@ -108,9 +108,9 @@ test('Footer: LinkedIn link should be present and open SauceLab`s LinkedIn page'
     await test.step(`LinkedIn link should open SauceLab's LinkedIn page, when clicked`, async () => {
         const linkedInPagePromise = page.context().waitForEvent('page');
         await productPage.footer.clickLinkedInLink();
-    
+
         const linkedInPage = await linkedInPagePromise;
-    
+
         await expect(linkedInPage).toHaveURL('https://www.linkedin.com/company/sauce-labs/');
     }, { box: true });
 });

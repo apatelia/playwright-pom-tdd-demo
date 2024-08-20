@@ -36,8 +36,8 @@ export class Header {
         let itemCount = 0;
 
         if (await this.cartItemCount.isVisible()) {
-            const count = await this.cartItemCount.textContent();
-            itemCount = +count!;
+            const count = `${await this.cartItemCount.textContent()}`;
+            itemCount = (count === '') ? 0 : +count;
         }
 
         return itemCount;

@@ -2,24 +2,24 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login-page';
 import { ProductsPage } from '../pages/products-page';
 
-const valid_users = [
-    { username: "standard_user", password: "secret_sauce" },
-    { username: "problem_user", password: "secret_sauce" },
-    { username: "performance_glitch_user", password: "secret_sauce" },
+const validUsers = [
+    { username: 'standard_user', password: 'secret_sauce' },
+    { username: 'problem_user', password: 'secret_sauce' },
+    { username: 'performance_glitch_user', password: 'secret_sauce' },
 ];
 
-const invalid_users = [
-    { username: "invalid_username", password: "secret_sauce" },
-    { username: "valid_username", password: "invalid_password" },
-    { username: "invalid_username", password: "invalid_password" },
+const invalidUsers = [
+    { username: 'invalid_username', password: 'secret_sauce' },
+    { username: 'valid_username', password: 'invalid_password' },
+    { username: 'invalid_username', password: 'invalid_password' },
 ];
 
-const locked_out_user = {
-    username: "locked_out_user",
-    password: "secret_sauce"
+const lockedOutUser = {
+    username: 'locked_out_user',
+    password: 'secret_sauce'
 };
 
-for (const user of valid_users) {
+for (const user of validUsers) {
     const username = user.username;
     const password = user.password;
 
@@ -48,7 +48,7 @@ for (const user of valid_users) {
     });
 }
 
-for (const user of invalid_users) {
+for (const user of invalidUsers) {
     const username = user.username;
     const password = user.password;
 
@@ -80,7 +80,7 @@ test('Locked out user should not be able to login with valid credentials @login 
     }, { box: true });
 
     await test.step(`User tries to login using a valid but disabled username and password combination`, async () => {
-        await loginPage.doLogin(locked_out_user.username, locked_out_user.password);
+        await loginPage.doLogin(lockedOutUser.username, lockedOutUser.password);
     }, { box: true });
 
     await test.step(`User must not be logged in and should see an appropriate error message`, async () => {

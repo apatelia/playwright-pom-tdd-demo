@@ -48,12 +48,12 @@ test('Remove a product from the cart @cart', async ({ page }) => {
     }, { box: true });
 
     const cartPage = new CartPage(page);
-    
+
     await test.step(`Product count should be '1', and should be visible on the cart menu in header`, async () => {
         const cartItemCount = await cartPage.header.getCartItemCount();
         expect(cartItemCount).toEqual(1);
     }, { box: true });
-    
+
 
     await test.step(`Remove 'Sauce Labs Bike Light' product from the cart`, async () => {
         await cartPage.removeProductFromCart(productName);
@@ -67,7 +67,7 @@ test('Remove a product from the cart @cart', async ({ page }) => {
 
 test('Continue Shopping button takes back to Products page @cart', async ({ page }) => {
     const productPage = new ProductsPage(page);
-    
+
     await test.step(`User visits the cart page`, async () => {
         await productPage.header.goToCart();
     }, { box: true });

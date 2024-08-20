@@ -33,7 +33,7 @@ const config: PlaywrightTestConfig = {
   reporter: [
     [ 'html' ],
     [ 'monocart-reporter', {
-      name: "Fancy Report",
+      name: 'Fancy Report',
       outputFile: './playwright-report/fancy-report.html'
     } ]
   ],
@@ -71,7 +71,7 @@ const config: PlaywrightTestConfig = {
     //     ...devices['Desktop Safari'],
     //   },
     // },
-    
+
      /* Test against mobile viewports. */
     //  {
     //   name: 'Mobile Chrome',

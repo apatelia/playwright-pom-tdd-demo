@@ -66,7 +66,7 @@ test('Clicking `Back Home` button takes back to `Products` page @checkout', asyn
     const productName = 'Sauce Labs Fleece Jacket';
 
     const productPage = new ProductsPage(page);
-    
+
     await test.step(`User adds a product to the cart`, async () => {
         await productPage.addProductToCart(productName);
     }, { box: true });

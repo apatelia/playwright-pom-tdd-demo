@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
-    "report": "npx monocart show-report playwright-report/fancy-report.html"
+    "test": "NODE_OPTIONS='-r playwright-magic-steps' npx playwright test",
+    "report": "npx monocart show-report playwright-report/monocart-report.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.46.0",
-    "@types/node": "^20.10.4",
-    "monocart-reporter": "^2.6.5"
+    "@playwright/test": "^1.47.0",
+    "@types/node": "^22.5.4",
+    "monocart-reporter": "^2.8.0",
+    "playwright-magic-steps": "^0.3.0"
   }
 }

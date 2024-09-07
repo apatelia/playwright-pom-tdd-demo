@@ -2,127 +2,117 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login-page';
 import { ProductsPage } from '../pages/products-page';
 
-test.beforeEach(async ({ page }) => {
-    await test.step(`Login and go to Products page`, async () => {
-        const loginPage = new LoginPage(page);
-        await loginPage.goto();
-        await loginPage.doLogin('standard_user', 'secret_sauce');
-    }, { box: true });
-});
+test.describe('Product Listing Page Tests', { tag: [ `@products_page` ] }, () => {
+  test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
 
+    // step: Given I am on login page
+    await loginPage.goto();
 
-test('Add a product to the cart @products', async ({ page }) => {
+    // step: When I try to login with "standard_user" as username and "secret_sauce" as password
+    await loginPage.doLogin('standard_user', 'secret_sauce');
+
+    // step: Then I should be on Products page
+    await expect(page).toHaveURL(/.*inventory.html/);
+  });
+
+  test('Add a product to the cart', async ({ page }) => {
     const productName = 'Sauce Labs Backpack';
 
     const productPage = new ProductsPage(page);
 
-    await test.step(`User adds a product to an empty cart`, async () => {
-        await productPage.addProductToCart(productName);
-    }, { box: true });
+    // step: When I add "Sauce Labs Backpack" to the cart
+    await productPage.addProductToCart(productName);
 
-    await test.step(`Cart count must be increased to 1`, async () => {
-        const cartItemCount = await productPage.header.getCartItemCount();
-        expect(cartItemCount).toEqual(1);
-    }, { box: true });
-});
+    // step: Then the cart item badge must show correct count of 1
+    const cartItemCount = await productPage.header.getCartItemCount();
+    expect(cartItemCount).toEqual(1);
+  });
 
-test('Add and then remove a product to/from the cart @products', async ({ page }) => {
+  test('Add and then remove a product to/from the cart', async ({ page }) => {
     const productName = 'Sauce Labs Bike Light';
 
     const productPage = new ProductsPage(page);
 
-    await test.step(`User adds a product to an empty cart`, async () => {
-        await productPage.addProductToCart(productName);
-    }, { box: true });
+    // step: When I add "Sauce Labs Backpack" to the cart
+    await productPage.addProductToCart(productName);
 
-    await test.step(`Cart count must be increased to 1`, async () => {
-        const cartItemCount = await productPage.header.getCartItemCount();
-        expect(cartItemCount).toEqual(1);
-    }, { box: true });
+    // step: Then the cart item badge must show correct count of 1
+    const cartItemCount = await productPage.header.getCartItemCount();
+    expect(cartItemCount).toEqual(1);
 
-    await test.step(`User removes previously added product from the cart`, async () => {
-        await productPage.removeProductFromCart(productName);
-    }, { box: true });
+    // step: Then I should be able to remove "Sauce Labs Bike Light" from the cart, using the Remove button
+    await productPage.removeProductFromCart(productName);
 
-    await test.step(`Cart count must be decreased to 0`, async () => {
-        await expect(productPage.header.cartItemCount).toHaveCount(0);
-    }, { box: true });
-});
+    // step: And the cart item badge must not be displayed
+    await expect(productPage.header.cartItemCount).toHaveCount(0);
+  });
 
-test('Log out should work', async ({ page }) => {
+  test('Log out should work', { tag: [ `@logout` ] }, async ({ page }) => {
     const productPage = new ProductsPage(page);
 
-    await test.step(`User logs out using header menu`, async () => {
-        await productPage.header.doLogout();
-    }, { box: true });
+    // step: When I click Log out from hamburger menu
+    await productPage.header.doLogout();
 
-    await test.step(`User must be logged out and should be on Login page`, async () => {
-        const loginPage = new LoginPage(page);
-        await expect(loginPage.loginButton).toBeVisible();
-    }, { box: true });
-});
+    // step: Then I must be logged out
+    const loginPage = new LoginPage(page);
+    await expect(loginPage.loginButton).toBeVisible();
+  });
 
-test('Footer: Twitter/X link should be present and open SauceLab`s Twitter page', async ({ page }) => {
+  test('Footer: Twitter/X link should be present and open SauceLab`s Twitter page', { tag: [ `@footer`, `@social_media` ] }, async ({ page }) => {
+    const productPage = new ProductsPage(page);
+    const twitterPagePromise = page.context().waitForEvent('page');
+
+    // step: Given that "Twitter/X" link in footer is visible
+    await expect(productPage.footer.twitterLink).toBeEnabled();
+
+    // step: When I click "Twitter/X" link from footer
+    await productPage.footer.clickTwitterLink();
+
+    // step: Then it should open correct URL in a new tab
+    const twitterPage = await twitterPagePromise;
+    await twitterPage.waitForLoadState();
+    await expect(twitterPage).toHaveURL('https://x.com/saucelabs');
+  });
+
+  test('Footer: Facebook link should be present and open SauceLab`s Facebook page', { tag: [ `@footer`, `@social_media` ] }, async ({ page }) => {
+    const productPage = new ProductsPage(page);
+    const facebookPagePromise = page.context().waitForEvent('page');
+
+    // step: Given that "Facebook" link in footer is visible
+    await expect(productPage.footer.facebookLink).toBeEnabled();
+
+    // step: When I click "Facebook" link from footer
+    await productPage.footer.clickFacebookLink();
+
+    // step: Then it should open correct URL in a new tab
+    const facebookPage = await facebookPagePromise;
+    await facebookPage.waitForLoadState();
+    await expect(facebookPage).toHaveURL('https://www.facebook.com/saucelabs');
+  });
+
+  test('Footer: LinkedIn link should be present and open SauceLab`s LinkedIn page', { tag: [ `@footer`, `@social_media` ] }, async ({ page }) => {
+    const productPage = new ProductsPage(page);
+    const linkedInPagePromise = page.context().waitForEvent('page');
+
+    // step: Given that "LinkedIn" link in footer is visible
+    await expect(productPage.footer.linkedInLink).toBeEnabled();
+
+    // step: When I click "LinkedIn" link from footer
+    await productPage.footer.clickLinkedInLink();
+
+    // step: Then it should open correct URL in a new tab
+    const linkedInPage = await linkedInPagePromise;
+    await expect(linkedInPage).toHaveURL('https://www.linkedin.com/company/sauce-labs/');
+  });
+
+  test('Footer: Copyright text is visible and is correct', { tag: [ `@footer` ] }, async ({ page }) => {
     const productPage = new ProductsPage(page);
 
-    await test.step(`Twitter/X link should be present in footer`, async () => {
-        await expect(productPage.footer.twitterLink).toBeEnabled();
-    }, { box: true });
+    // step: Then copyright text in footer should be visible
+    await expect(productPage.footer.copyrightText).toBeVisible();
 
-    await test.step(`Twitter/X link should open SauceLab's Twitter/X page, when clicked`, async () => {
-        const twitterPagePromise = page.context().waitForEvent('page');
-        await productPage.footer.clickTwitterLink();
-
-        const twitterPage = await twitterPagePromise;
-        await twitterPage.waitForLoadState();
-
-        await expect(twitterPage).toHaveURL('https://x.com/saucelabs');
-    }, { box: true });
-});
-
-test('Footer: Facebook link should be present and open SauceLab`s Facebook page', async ({ page }) => {
-    const productPage = new ProductsPage(page);
-
-    await test.step(`Facebook link should be present in footer`, async () => {
-        await expect(productPage.footer.facebookLink).toBeEnabled();
-    }, { box: true });
-
-    await test.step(`Facebook link should open SauceLab's Facebook page, when clicked`, async () => {
-        const facebookPagePromise = page.context().waitForEvent('page');
-        await productPage.footer.clickFacebookLink();
-
-        const facebookPage = await facebookPagePromise;
-        await facebookPage.waitForLoadState();
-
-        await expect(facebookPage).toHaveURL('https://www.facebook.com/saucelabs');
-    }, { box: true });
-});
-
-test('Footer: LinkedIn link should be present and open SauceLab`s LinkedIn page', async ({ page }) => {
-    const productPage = new ProductsPage(page);
-
-    await test.step(`LinkedIn link should be present in footer`, async () => {
-        await expect(productPage.footer.linkedInLink).toBeEnabled();
-    }, { box: true });
-
-    await test.step(`LinkedIn link should open SauceLab's LinkedIn page, when clicked`, async () => {
-        const linkedInPagePromise = page.context().waitForEvent('page');
-        await productPage.footer.clickLinkedInLink();
-
-        const linkedInPage = await linkedInPagePromise;
-
-        await expect(linkedInPage).toHaveURL('https://www.linkedin.com/company/sauce-labs/');
-    }, { box: true });
-});
-
-test('Footer: Copyright text is visible and is correct', async ({ page }) => {
-    const productPage = new ProductsPage(page);
-
-    await test.step(`Copyright text should be present in footer`, async () => {
-        await expect(productPage.footer.copyrightText).toBeVisible();
-    }, { box: true });
-
-    await test.step(`Copyright text should be correct`, async () => {
-        expect(await productPage.footer.getCopyrightTextContent()).toEqual('© 2024 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy');
-    }, { box: true });
+    // step: And the copyright text contents should be correct
+    expect(await productPage.footer.getCopyrightTextContent()).toEqual('© 2024 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy');
+  });
 });

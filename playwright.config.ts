@@ -28,13 +28,22 @@ const config: PlaywrightTestConfig = {
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 6,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    [ 'html' ],
+    [ 'line' ],
     [ 'monocart-reporter', {
-      name: 'Fancy Report',
-      outputFile: './playwright-report/fancy-report.html'
+      name: 'Test Run Report',
+      outputFile: './playwright-report/monocart-report.html',
+      groupOptions: {
+        group: true,
+        shard: true,
+        project: true,
+        file: true,
+        describe: true,
+        step: true,
+        merge: false
+      }
     } ]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -72,7 +81,7 @@ const config: PlaywrightTestConfig = {
     //   },
     // },
 
-     /* Test against mobile viewports. */
+    /* Test against mobile viewports. */
     //  {
     //   name: 'Mobile Chrome',
     //   use: { ...devices['Pixel 5'] },

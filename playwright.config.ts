@@ -1,5 +1,5 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
-import { devices } from '@playwright/test';
+import type { PlaywrightTestConfig } from "@playwright/test";
+import { devices } from "@playwright/test";
 
 /**
  * Read environment variables from file.
@@ -11,7 +11,7 @@ import { devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-  testDir: './tests',
+  testDir: "./tests",
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
@@ -28,35 +28,47 @@ const config: PlaywrightTestConfig = {
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 6,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    [ 'html' ],
-    [ 'monocart-reporter', {
-      name: 'Fancy Report',
-      outputFile: './playwright-report/fancy-report.html'
-    } ]
+    ["line"],
+    [
+      "monocart-reporter",
+      {
+        name: "Test Run Report",
+        outputFile: "./test-report/report.html",
+        groupOptions: {
+          group: true,
+          shard: true,
+          project: true,
+          file: true,
+          describe: true,
+          step: true,
+          merge: true
+        }
+      }
+    ]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'https://www.saucedemo.com',
+    baseURL: "https://www.saucedemo.com",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    trace: "on-first-retry",
+    screenshot: "only-on-failure"
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: "chromium",
       use: {
-        ...devices[ 'Desktop Chrome' ],
-      },
-    },
+        ...devices["Desktop Chrome"]
+      }
+    }
 
     // {
     //   name: 'firefox',
@@ -72,7 +84,7 @@ const config: PlaywrightTestConfig = {
     //   },
     // },
 
-     /* Test against mobile viewports. */
+    /* Test against mobile viewports. */
     //  {
     //   name: 'Mobile Chrome',
     //   use: { ...devices['Pixel 5'] },
@@ -81,7 +93,7 @@ const config: PlaywrightTestConfig = {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
     // },
-  ],
+  ]
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',

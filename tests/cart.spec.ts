@@ -1,107 +1,120 @@
-import { test, expect } from '@playwright/test';
-import { CartPage } from '../pages/cart-page';
-import { LoginPage } from '../pages/login-page';
-import { ProductsPage } from '../pages/products-page';
+import { test, expect } from "../fixtures/customTest";
 
-test.beforeEach(async ({ page }) => {
-    await test.step(`Login and go to Products page`, async () => {
-        const loginPage = new LoginPage(page);
-        await loginPage.goto();
-        await loginPage.doLogin('standard_user', 'secret_sauce');
-    }, { box: true });
-});
+test.describe("Cart Feature Tests", { tag: ["@cart"] }, () => {
+  test.beforeEach(async ({ page, loginPage, productsPage }) => {
+    await test.step(`Given I am on login page`, async () => {
+      await loginPage.goto();
+    });
 
+    await test.step(`When I try to login with "standard_user" as username and "secret_sauce" as password`, async () => {
+      await loginPage.doLogin("standard_user", "secret_sauce");
+    });
 
-test('Verify product details from the cart @cart', async ({ page }) => {
-    const productName = 'Sauce Labs Backpack';
-    const productPrice = '$29.99';
+    await test.step(`Then I should be on Products page`, async () => {
+      await expect(page).toHaveURL(/.*inventory.html/);
+      await expect(productsPage.productHeading).toBeVisible();
+    });
+  });
+
+  test("Verify product details from the cart", async ({
+    header,
+    productsPage,
+    cartPage
+  }) => {
+    const productName = "Sauce Labs Backpack";
+    const productPrice = "$29.99";
     const productQuantity = 1;
 
-    const productPage = new ProductsPage(page);
+    await test.step(`When I add "Sauce Labs Backpack" to the cart`, async () => {
+      await productsPage.addProductToCart(productName);
+    });
 
-    await test.step(`User adds '1' quantity of 'Sauce Labs Backpack' to cart, having price of '$29.99'`, async () => {
-        await productPage.addProductToCart(productName);
-    }, { box: true });
+    await test.step(`And I go to the cart page`, async () => {
+      await header.goToCart();
+    });
 
-    await test.step(`User visits the cart page`, async () => {
-        await productPage.header.goToCart();
-    }, { box: true });
+    await test.step(`Then price of the "Sauce Labs Backpack" in cart must match "$29.99"`, async () => {
+      expect(await cartPage.getProductPrice(productName)).toEqual(productPrice);
+    });
 
-    await test.step(`Product details on cart page should match with quantity of '1' and price of '$29.99'`, async () => {
-        const cartPage = new CartPage(page);
-        expect(await cartPage.getProductPrice(productName)).toEqual(productPrice);
-        expect(await cartPage.getProductQuantity(productName)).toEqual(productQuantity);
-    }, { box: true });
-});
+    await test.step(`And quantity of the "Sauce Labs Backpack" in cart must match 1`, async () => {
+      expect(await cartPage.getProductQuantity(productName)).toEqual(
+        productQuantity
+      );
+    });
+  });
 
-test('Remove a product from the cart @cart', async ({ page }) => {
-    const productName = 'Sauce Labs Bike Light';
+  test(
+    "Remove a product from the cart",
+    { tag: [`@remove_from_cart`] },
+    async ({ header, productsPage, cartPage }) => {
+      const productName = "Sauce Labs Bike Light";
 
-    const productPage = new ProductsPage(page);
+      await test.step(`When I add "Sauce Labs Bike Light" to the cart`, async () => {
+        await productsPage.addProductToCart(productName);
+      });
 
-    await test.step(`User adds 'Sauce Labs Bike Light' to cart`, async () => {
-        await productPage.addProductToCart(productName);
-    }, { box: true });
+      await test.step(`And I go to the cart page`, async () => {
+        await header.goToCart();
+      });
 
-    await test.step(`User visits the cart page`, async () => {
-        await productPage.header.goToCart();
-    }, { box: true });
-
-    const cartPage = new CartPage(page);
-
-    await test.step(`Product count should be '1', and should be visible on the cart menu in header`, async () => {
-        const cartItemCount = await cartPage.header.getCartItemCount();
+      await test.step(`Then quantity of the "Sauce Labs Bike Light" in cart must match 1`, async () => {
+        const cartItemCount = await header.getCartItemCount();
         expect(cartItemCount).toEqual(1);
-    }, { box: true });
+      });
 
-
-    await test.step(`Remove 'Sauce Labs Bike Light' product from the cart`, async () => {
+      await test.step(`When I remove "Sauce Labs Bike Light" from the cart`, async () => {
         await cartPage.removeProductFromCart(productName);
-    }, { box: true });
+      });
 
-    await test.step(`Product count should be '0', and '1' should not be visible on the cart menu in header`, async () => {
-        const cartItemCount = await cartPage.header.getCartItemCount();
+      await test.step(` Then the cart item badge must not be displayed`, async () => {
+        await expect(header.cartItemCount).not.toBeVisible();
+        const cartItemCount = await header.getCartItemCount();
         expect(cartItemCount).toEqual(0);
-    }, { box: true });
-});
+      });
+    }
+  );
 
-test('Continue Shopping button takes back to Products page @cart', async ({ page }) => {
-    const productPage = new ProductsPage(page);
+  test(
+    "Continue Shopping button takes back to Products page",
+    { tag: ["@continue_shopping"] },
+    async ({ page, header, productsPage, cartPage }) => {
+      await test.step(`When I go to the cart page`, async () => {
+        await header.goToCart();
+      });
 
-    await test.step(`User visits the cart page`, async () => {
-        await productPage.header.goToCart();
-    }, { box: true });
-
-    await test.step(`User clicks on 'Continue Shopping' button on the cart page`, async () => {
-        const cartPage = new CartPage(page);
+      await test.step(`And I click on the Continue Shopping button`, async () => {
         await cartPage.doContinueShopping();
-    }, { box: true });
+      });
 
-    await test.step(`User should be redirected back to Products page`, async () => {
+      await test.step(`Then I should be on Products page`, async () => {
         await expect(page).toHaveURL(/.*inventory.html/);
-        await expect(productPage.productHeading).toBeVisible();
-    }, { box: true });
-});
+        await expect(productsPage.productHeading).toBeVisible();
+      });
+    }
+  );
 
-test('Clicking `Checkout` button starts checkout @cart', async ({ page }) => {
-    const productName = 'Sauce Labs Fleece Jacket';
+  test(
+    "Clicking `Checkout` button starts checkout",
+    { tag: [`@checkout`] },
+    async ({ page, header, productsPage, cartPage }) => {
+      const productName = "Sauce Labs Fleece Jacket";
 
-    const productPage = new ProductsPage(page);
+      await test.step(`When I add "Sauce Labs Fleece Jacket" to the cart`, async () => {
+        await productsPage.addProductToCart(productName);
+      });
 
-    await test.step(`User adds a product to the cart`, async () => {
-        await productPage.addProductToCart(productName);
-    }, { box: true });
+      await test.step(`And I go to the cart page`, async () => {
+        await header.goToCart();
+      });
 
-    await test.step(`User visits the cart page`, async () => {
-        await productPage.header.goToCart();
-    }, { box: true });
-
-    await test.step(`User clicks on 'Checkout' button on the cart page`, async () => {
-        const cartPage = new CartPage(page);
+      await test.step(`When I click on the Checkout button`, async () => {
         await cartPage.doCheckout();
-    }, { box: true });
+      });
 
-    await test.step(`User should land on the checkout page`, async () => {
+      await test.step(`Then I should be on "Your Information" page`, async () => {
         await expect(page).toHaveURL(/.*checkout-step-one.html/);
-    }, { box: true });
+      });
+    }
+  );
 });

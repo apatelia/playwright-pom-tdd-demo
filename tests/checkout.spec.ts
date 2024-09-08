@@ -1,104 +1,122 @@
-import { test, expect } from '@playwright/test';
-import { CartPage } from '../pages/cart-page';
-import { CheckoutCompletePage } from '../pages/checkout-complete-page';
-import { CheckoutStepOnePage } from '../pages/checkout-step-one-page';
-import { CheckoutStepTwoPage } from '../pages/checkout-step-two-page';
-import { LoginPage } from '../pages/login-page';
-import { ProductsPage } from '../pages/products-page';
+import { test, expect } from "../fixtures/customTest";
 
-test.beforeEach(async ({ page }) => {
-    await test.step(`Login and go to Products page`, async () => {
-        const loginPage = new LoginPage(page);
-        await loginPage.goto();
-        await loginPage.doLogin('standard_user', 'secret_sauce');
-    }, { box: true });
-});
+test.describe("Checkout Feature Tests", { tag: ["@checkout"] }, () => {
+  test.beforeEach(async ({ page, loginPage, productsPage }) => {
+    await test.step(`Given I am on login page`, async () => {
+      await loginPage.goto();
+    });
 
+    await test.step(`When I try to login with "standard_user" as username and "secret_sauce" as password`, async () => {
+      await loginPage.doLogin("standard_user", "secret_sauce");
+    });
 
-test('Place an order @checkout', async ({ page }) => {
-    const productName = 'Sauce Labs Backpack';
-    const productPrice = '$29.99';
-    const productQuantity = 1;
+    await test.step(`Then I should be on Products page`, async () => {
+      await expect(page).toHaveURL(/.*inventory.html/);
+      await expect(productsPage.productHeading).toBeVisible();
+    });
+  });
 
-    const productPage = new ProductsPage(page);
+  test(
+    "Place an order",
+    { tag: ["@order"] },
+    async ({
+      page,
+      header,
+      productsPage,
+      cartPage,
+      checkoutStepOnePage,
+      checkoutStepTwoPage,
+      checkoutCompletePage
+    }) => {
+      const productName = "Sauce Labs Backpack";
+      const productPrice = "$29.99";
+      const productQuantity = 1;
 
-    await test.step(`User adds a product to the cart`, async () => {
-        await productPage.addProductToCart(productName);
-    }, { box: true });
+      await test.step(`When I add "Sauce Labs Backpack" to the cart`, async () => {
+        await productsPage.addProductToCart(productName);
+      });
 
-    await test.step(`User visits the cart page`, async () => {
-        await productPage.header.goToCart();
-    }, { box: true });
+      await test.step(`And I go to the cart page`, async () => {
+        await header.goToCart();
+      });
 
-    const cartPage = new CartPage(page);
+      await test.step(`Then Product price on the cart page, should match with price of the product added`, async () => {
+        expect(await cartPage.getProductPrice(productName)).toEqual(
+          productPrice
+        );
+      });
 
-    await test.step(`Product details on the cart page, should match with details of the product added`, async () => {
-        expect(await cartPage.getProductPrice(productName)).toEqual(productPrice);
-        expect(await cartPage.getProductQuantity(productName)).toEqual(productQuantity);
-    }, { box: true });
+      await test.step(`Then Product quantity on the cart page, should match with quantity of the product added`, async () => {
+        expect(await cartPage.getProductQuantity(productName)).toEqual(
+          productQuantity
+        );
+      });
 
-    await test.step(`User starts checkout`, async () => {
+      await test.step(`When I start checkout`, async () => {
         await cartPage.doCheckout();
         await expect(page).toHaveURL(/.*checkout-step-one.html/);
-    }, { box: true });
+      });
 
-    await test.step(`User fills customer information and continues with checkout`, async () => {
-        const checkoutStepOnePage = new CheckoutStepOnePage(page);
+      await test.step(`And I fill customer information and continue with checkout`, async () => {
         await checkoutStepOnePage.fillCustomerInformation();
         await checkoutStepOnePage.doCheckout();
-    }, { box: true });
+      });
 
-    await test.step(`User continues checkout after verifying product details on the checkout summary page`, async () => {
-        const checkoutStepTwoPage = new CheckoutStepTwoPage(page);
-        expect(await checkoutStepTwoPage.getProductPrice(productName)).toEqual(productPrice);
-        expect(await checkoutStepTwoPage.getProductQuantity(productName)).toEqual(productQuantity);
+      await test.step(`And I verify product details on the checkout summary page and complete the checkout`, async () => {
+        expect(await checkoutStepTwoPage.getProductPrice(productName)).toEqual(
+          productPrice
+        );
+        expect(
+          await checkoutStepTwoPage.getProductQuantity(productName)
+        ).toEqual(productQuantity);
         await checkoutStepTwoPage.finishCheckout();
-    }, { box: true });
+      });
 
-    await test.step(`User is greeted with a 'Thank You' message upon completing the checkout`, async () => {
-        const checkoutCompletePage = new CheckoutCompletePage(page);
+      await test.step(`Then I am greeted with a 'Thank You' message upon completing the checkout`, async () => {
         await expect(checkoutCompletePage.thankYouHeading).toBeVisible();
-    }, { box: true });
-});
+      });
+    }
+  );
 
+  test("Clicking `Back Home` button takes back to `Products` page", async ({
+    page,
+    header,
+    productsPage,
+    cartPage,
+    checkoutStepOnePage,
+    checkoutStepTwoPage,
+    checkoutCompletePage
+  }) => {
+    const productName = "Sauce Labs Fleece Jacket";
+    await test.step(`When I add "Sauce Labs Fleece Jacket" to the cart`, async () => {
+      await productsPage.addProductToCart(productName);
+    });
 
-test('Clicking `Back Home` button takes back to `Products` page @checkout', async ({ page }) => {
-    const productName = 'Sauce Labs Fleece Jacket';
+    await test.step(`Then I go to the cart page`, async () => {
+      await header.goToCart();
+    });
 
-    const productPage = new ProductsPage(page);
+    await test.step(`When I start checkout`, async () => {
+      await cartPage.doCheckout();
+    });
 
-    await test.step(`User adds a product to the cart`, async () => {
-        await productPage.addProductToCart(productName);
-    }, { box: true });
+    await test.step(`And I fill customer information and continue with checkout`, async () => {
+      await checkoutStepOnePage.fillCustomerInformation();
+      await checkoutStepOnePage.doCheckout();
+    });
 
-    await test.step(`User visits the cart page`, async () => {
-        await productPage.header.goToCart();
-    }, { box: true });
+    await test.step(`And I complete checkout`, async () => {
+      await checkoutStepTwoPage.finishCheckout();
+    });
 
-    await test.step(`User starts checkout`, async () => {
-        const cartPage = new CartPage(page);
-        await cartPage.doCheckout();
-    }, { box: true });
+    await test.step(`When I click on 'Back To Home' button`, async () => {
+      await expect(checkoutCompletePage.backHomeButton).toBeEnabled();
+      await checkoutCompletePage.backHomeButton.click();
+    });
 
-    await test.step(`User fills customer information and continues with checkout`, async () => {
-        const checkoutStepOnePage = new CheckoutStepOnePage(page);
-        await checkoutStepOnePage.fillCustomerInformation();
-        await checkoutStepOnePage.doCheckout();
-    }, { box: true });
-
-    await test.step(`User continues checkout from the checkout summary page`, async () => {
-        const checkoutStepTwoPage = new CheckoutStepTwoPage(page);
-        await checkoutStepTwoPage.finishCheckout();
-    }, { box: true });
-
-    await test.step(`User clicks on 'Back To Home' button after finishing checkout`, async () => {
-        const checkoutCompletePage = new CheckoutCompletePage(page);
-        await expect(checkoutCompletePage.backHomeButton).toBeEnabled();
-        await checkoutCompletePage.backHomeButton.click();
-    }, { box: true });
-
-    await test.step(`User should be redirected back to Products page`, async () => {
-        await expect(page).toHaveURL(/.*inventory.html/);
-        await expect(productPage.productHeading).toBeVisible();
-    }, { box: true });
+    await test.step(`Then I should be redirected back to Products page`, async () => {
+      await expect(page).toHaveURL(/.*inventory.html/);
+      await expect(productsPage.productHeading).toBeVisible();
+    });
+  });
 });

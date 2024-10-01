@@ -68,33 +68,25 @@ test.describe("Login Feature Test", { tag: [`@login`] }, () => {
         await test.step(`Then I should see invalid credentials error message`, async () => {
           await expect(loginPage.errorMessage).toBeVisible();
           const errorText = await loginPage.errorMessage.textContent();
-          expect(errorText).toEqual(
-            "Epic sadface: Username and password do not match any user in this service"
-          );
+          expect(errorText).toEqual("Epic sadface: Username and password do not match any user in this service");
         });
       }
     );
   }
 
-  test(
-    "Locked out user should not be able to login with valid credentials",
-    { tag: [`@locked_out_user`] },
-    async ({ loginPage }) => {
-      await test.step(`Given I am on login page`, async () => {
-        await loginPage.goto();
-      });
+  test("Locked out user should not be able to login with valid credentials", { tag: [`@locked_out_user`] }, async ({ loginPage }) => {
+    await test.step(`Given I am on login page`, async () => {
+      await loginPage.goto();
+    });
 
-      await test.step(`When I try to login with a disabled username and a valid password`, async () => {
-        await loginPage.doLogin(lockedOutUser.username, lockedOutUser.password);
-      });
+    await test.step(`When I try to login with a disabled username and a valid password`, async () => {
+      await loginPage.doLogin(lockedOutUser.username, lockedOutUser.password);
+    });
 
-      await test.step(`Then I should see an appropriate error message`, async () => {
-        await expect(loginPage.errorMessage).toBeVisible();
-        const errorText = await loginPage.errorMessage.textContent();
-        expect(errorText).toEqual(
-          "Epic sadface: Sorry, this user has been locked out."
-        );
-      });
-    }
-  );
+    await test.step(`Then I should see an appropriate error message`, async () => {
+      await expect(loginPage.errorMessage).toBeVisible();
+      const errorText = await loginPage.errorMessage.textContent();
+      expect(errorText).toEqual("Epic sadface: Sorry, this user has been locked out.");
+    });
+  });
 });

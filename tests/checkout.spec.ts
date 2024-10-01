@@ -19,15 +19,7 @@ test.describe("Checkout Feature Tests", { tag: ["@checkout"] }, () => {
   test(
     "Place an order",
     { tag: ["@order"] },
-    async ({
-      page,
-      header,
-      productsPage,
-      cartPage,
-      checkoutStepOnePage,
-      checkoutStepTwoPage,
-      checkoutCompletePage
-    }) => {
+    async ({ page, header, productsPage, cartPage, checkoutStepOnePage, checkoutStepTwoPage, checkoutCompletePage }) => {
       const productName = "Sauce Labs Backpack";
       const productPrice = "$29.99";
       const productQuantity = 1;
@@ -41,15 +33,11 @@ test.describe("Checkout Feature Tests", { tag: ["@checkout"] }, () => {
       });
 
       await test.step(`Then Product price on the cart page, should match with price of the product added`, async () => {
-        expect(await cartPage.getProductPrice(productName)).toEqual(
-          productPrice
-        );
+        expect(await cartPage.getProductPrice(productName)).toEqual(productPrice);
       });
 
       await test.step(`Then Product quantity on the cart page, should match with quantity of the product added`, async () => {
-        expect(await cartPage.getProductQuantity(productName)).toEqual(
-          productQuantity
-        );
+        expect(await cartPage.getProductQuantity(productName)).toEqual(productQuantity);
       });
 
       await test.step(`When I start checkout`, async () => {
@@ -63,12 +51,8 @@ test.describe("Checkout Feature Tests", { tag: ["@checkout"] }, () => {
       });
 
       await test.step(`And I verify product details on the checkout summary page and complete the checkout`, async () => {
-        expect(await checkoutStepTwoPage.getProductPrice(productName)).toEqual(
-          productPrice
-        );
-        expect(
-          await checkoutStepTwoPage.getProductQuantity(productName)
-        ).toEqual(productQuantity);
+        expect(await checkoutStepTwoPage.getProductPrice(productName)).toEqual(productPrice);
+        expect(await checkoutStepTwoPage.getProductQuantity(productName)).toEqual(productQuantity);
         await checkoutStepTwoPage.finishCheckout();
       });
 

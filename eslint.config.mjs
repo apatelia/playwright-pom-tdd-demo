@@ -8,12 +8,7 @@ export default [
     files: ["**/*.{js,ts}"]
   },
   {
-    ignores: [
-      "eslint.config.mjs",
-      "node_modules/*",
-      "test-report/*",
-      "test-results/*"
-    ]
+    ignores: ["eslint.config.mjs", "node_modules/*", "test-report/*", "test-results/*"]
   },
   {
     languageOptions: {

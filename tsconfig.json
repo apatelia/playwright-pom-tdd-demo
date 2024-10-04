@@ -4,14 +4,21 @@
   },
   "compilerOptions": {
     "target": "es2018",
-    "lib": ["es2018", "DOM"],
+    "lib": [
+      "es2018",
+      "DOM"
+    ],
     "esModuleInterop": true,
     "module": "commonjs",
     "strictNullChecks": false,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "declaration": true,
     "skipLibCheck": true,
     "moduleDetection": "force"
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

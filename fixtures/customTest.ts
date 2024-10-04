@@ -51,7 +51,7 @@ export const test = baseTest.extend<PageObjects>({
   checkoutCompletePage: async ({ page }, use) => {
     const checkoutCompletePage = new CheckoutCompletePage(page);
     await use(checkoutCompletePage);
-  }
+  },
 });
 
 export { expect } from "@playwright/test";

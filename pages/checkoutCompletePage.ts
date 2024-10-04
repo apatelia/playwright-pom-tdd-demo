@@ -8,13 +8,11 @@ export class CheckoutCompletePage {
 
   constructor(page: Page) {
     this.page = page;
-    this.thankYouHeading = page.getByRole("heading", {
-      name: "THANK YOU FOR YOUR ORDER"
-    });
+    this.thankYouHeading = page.getByRole("heading", { name: "THANK YOU FOR YOUR ORDER" });
     this.backHomeButton = page.getByRole("button", { name: "BACK HOME" });
   }
 
-  async goBackToProductsPage(): Promise<void> {
+  async goBackToProductsPage (): Promise<void> {
     await this.backHomeButton.click();
   }
 }

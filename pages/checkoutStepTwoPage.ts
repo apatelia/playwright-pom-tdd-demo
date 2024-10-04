@@ -13,32 +13,28 @@ export class CheckoutStepTwoPage {
     this.finishButton = page.getByRole("button", { name: "FINISH" });
   }
 
-  async goto(): Promise<void> {
+  async goto (): Promise<void> {
     await this.page.goto("/checkout-step-one.html");
   }
 
-  async doCancelCheckout(): Promise<void> {
+  async doCancelCheckout (): Promise<void> {
     await this.cancelButton.click();
   }
 
-  async finishCheckout(): Promise<void> {
+  async finishCheckout (): Promise<void> {
     await this.finishButton.click();
   }
 
-  async getProductPrice(productName: string): Promise<string> {
-    const product: Locator = this.productsToBeCheckedOut.filter({
-      hasText: productName
-    });
+  async getProductPrice (productName: string): Promise<string> {
+    const product: Locator = this.productsToBeCheckedOut.filter({ hasText: productName });
 
     const price = `${await product.locator("div.inventory_item_price").textContent()}`;
 
     return price === "" ? "$0" : price;
   }
 
-  async getProductQuantity(productName: string): Promise<number> {
-    const product: Locator = this.productsToBeCheckedOut.filter({
-      hasText: productName
-    });
+  async getProductQuantity (productName: string): Promise<number> {
+    const product: Locator = this.productsToBeCheckedOut.filter({ hasText: productName });
 
     const quantity = `${await product.locator("div.cart_quantity").textContent()}`;
 

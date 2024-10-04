@@ -7,9 +7,7 @@
     "test": "npx playwright test",
     "report": "npx monocart show-report test-report/report.html",
     "lint:check": "npx eslint .",
-    "lint": "npx eslint . --fix",
-    "format:check": "npx prettier . --check",
-    "format": "npx prettier . --write",
+    "lint:fix": "npx eslint . --fix",
     "prepare": "husky"
   },
   "keywords": [],
@@ -19,11 +17,9 @@
     "@playwright/test": "^1.47.0",
     "@types/node": "^22.5.4",
     "eslint": "^9.10.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.5",
     "monocart-reporter": "^2.8.0",
-    "prettier": "3.3.3",
-    "typescript-eslint": "^8.4.0"
+    "typescript-eslint": "^8.4.0",
+    "eslint-plugin-unused-imports": "^4.1.4"
   }
 }

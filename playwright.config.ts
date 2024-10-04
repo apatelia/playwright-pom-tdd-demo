@@ -19,7 +19,7 @@ const config: PlaywrightTestConfig = {
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5000
+    timeout: 5000,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -31,7 +31,7 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : 6,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ["line"],
+    [ "line" ],
     [
       "monocart-reporter",
       {
@@ -44,10 +44,10 @@ const config: PlaywrightTestConfig = {
           file: true,
           describe: true,
           step: true,
-          merge: true
-        }
-      }
-    ]
+          merge: true,
+        },
+      },
+    ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -58,7 +58,7 @@ const config: PlaywrightTestConfig = {
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
-    screenshot: "only-on-failure"
+    screenshot: "only-on-failure",
   },
 
   /* Configure projects for major browsers */
@@ -66,9 +66,9 @@ const config: PlaywrightTestConfig = {
     {
       name: "chromium",
       use: {
-        ...devices["Desktop Chrome"]
-      }
-    }
+        ...devices["Desktop Chrome"],
+      },
+    },
 
     // {
     //   name: 'firefox',
@@ -93,7 +93,7 @@ const config: PlaywrightTestConfig = {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
     // },
-  ]
+  ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',

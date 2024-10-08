@@ -8,26 +8,22 @@ export class ProductsPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.productHeading = page.getByText("Products");
-    this.allProducts = page.locator("div.inventory_item");
-    this.productSortOptions = page.locator("select.product_sort_container");
-  }
-
-  async goto(): Promise<void> {
-    await this.page.goto("/inventory.html");
+    this.productHeading = page.getByTestId("title");
+    this.allProducts = page.getByTestId("inventory-item");
+    this.productSortOptions = page.getByTestId("product-sort-container");
   }
 
   async addProductToCart(productName: string): Promise<void> {
     const product: Locator = this.allProducts.filter({ hasText: productName });
 
-    const addToCartButton = product.locator("button");
+    const addToCartButton = product.getByRole("button", { name: "Add to cart" });
     await addToCartButton.click();
   }
 
   async removeProductFromCart(productName: string): Promise<void> {
     const product: Locator = this.allProducts.filter({ hasText: productName });
 
-    const removeButton = product.locator("button");
+    const removeButton = product.getByRole("button", { name: "Remove" });
     await removeButton.click();
   }
 }

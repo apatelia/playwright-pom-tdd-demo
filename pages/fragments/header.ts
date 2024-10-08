@@ -13,24 +13,24 @@ export class Header {
     this.hamburgerMenuButton = page.getByRole("button", { name: "Open Menu" });
     this.logoutMenuEntry = page.getByRole("link", { name: "Logout" });
     this.hamburgerMenuCloseButton = page.getByRole("button", { name: "Close Menu" });
-    this.cartLink = page.locator("a.shopping_cart_link");
-    this.cartItemCount = page.locator("span.shopping_cart_badge");
+    this.cartLink = page.getByTestId("shopping-cart-link");
+    this.cartItemCount = page.getByTestId("shopping-cart-badge");
   }
 
-  async doLogout (): Promise<void> {
+  async logout(): Promise<void> {
     await this.hamburgerMenuButton.click();
     await this.logoutMenuEntry.click();
   }
 
-  async closeMenu (): Promise<void> {
+  async closeMenu(): Promise<void> {
     await this.hamburgerMenuCloseButton.click();
   }
 
-  async goToCart (): Promise<void> {
+  async goToCart(): Promise<void> {
     await this.cartLink.click();
   }
 
-  async getCartItemCount (): Promise<number> {
+  async getCartItemCount(): Promise<number> {
     let itemCount = 0;
 
     if (await this.cartItemCount.isVisible()) {

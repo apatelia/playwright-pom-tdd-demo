@@ -12,7 +12,7 @@ export class Footer {
     this.twitterLink = page.getByRole("link", { name: "Twitter" });
     this.facebookLink = page.getByRole("link", { name: "Facebook" });
     this.linkedInLink = page.getByRole("link", { name: "LinkedIn" });
-    this.copyrightText = page.locator("div.footer_copy");
+    this.copyrightText = page.getByTestId("footer-copy");
   }
 
   async clickTwitterLink(): Promise<void> {

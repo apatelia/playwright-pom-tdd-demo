@@ -10,7 +10,7 @@
     ],
     "esModuleInterop": true,
     "module": "commonjs",
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "types": [
       "node"
     ],

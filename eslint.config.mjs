@@ -1,9 +1,9 @@
-import globals from "globals";
 import pluginJs from "@eslint/js";
-import teslint from "typescript-eslint";
-import unusedImports from "eslint-plugin-unused-imports";
-import deprecated from "eslint-plugin-deprecate";
+import stylistic from "@stylistic/eslint-plugin";
 import playwright from "eslint-plugin-playwright";
+import unusedImports from "eslint-plugin-unused-imports";
+import globals from "globals";
+import teslint from "typescript-eslint";
 
 export default [
   {
@@ -27,12 +27,12 @@ export default [
     }
   },
   pluginJs.configs.recommended,
-  ...teslint.configs.recommended,
-  ...teslint.configs.stylistic,
+  ...teslint.configs.recommendedTypeChecked,
+  ...teslint.configs.stylisticTypeChecked,
   {
     plugins: {
+      "@stylistic": stylistic,
       "unused-imports": unusedImports,
-      "deprecated": deprecated,
     }
   },
   {
@@ -43,36 +43,71 @@ export default [
     files: [ "tests/**", "pages/**" ],
     rules: {
       "playwright/no-commented-out-tests": "error",
-      "playwright/prefer-lowercase-title": "warn",
-      "playwright/require-soft-assertions": "error",
+      "playwright/no-focused-test": "error",
+      "playwright/no-skipped-test": [
+        "error",
+        {
+          "allowConditional": true
+        }
+      ],
+      "playwright/valid-title": "error",
+      "playwright/prefer-lowercase-title": [
+        "warn",
+        {
+          "ignore": [ "test.describe" ],
+          "ignoreTopLevelDescribe": true
+        }
+      ],
+      "playwright/require-soft-assertions": "warn",
+      "playwright/prefer-web-first-assertions": "error",
+      "playwright/prefer-comparison-matcher": "error",
       "playwright/prefer-equality-matcher": "error",
       "playwright/prefer-strict-equal": "error",
       "playwright/prefer-to-have-count": "error",
       "playwright/prefer-to-have-length": "error",
+      "playwright/prefer-native-locators": [
+        "error",
+        {
+          "testIdAttribute": "data-test"
+        }
+      ],
       "playwright/no-raw-locators": "warn",
+      "playwright/no-networkidle": "error",
+      "playwright/no-wait-for-timeout": "error",
+      "playwright/no-wait-for-selector": "error",
     },
   },
   {
+    "settings": {
+      "playwright": {
+        "messages": {
+          "noWaitForTimeout": "Avoid using page.waitForTimeout(). It makes tests unreliable.",
+          "noWaitForSelector": "page.waitForSelector() is discouraged. Use locator.waitFor() instead."
+        }
+      }
+    }
+  },
+  {
     rules: {
-      "quotes": [ "error", "double" ],
-      "semi": [ "error", "always" ],
-      "linebreak-style": [ "error", "unix" ],
-      "one-var-declaration-per-line": [ "error", "always" ],
-      "no-unused-vars": "error",
-      "eqeqeq": "error",
+      "eqeqeq": [ "error", "smart" ],
       "no-console": "error",
-      "array-bracket-spacing": [ "error", "always" ],
-      "object-curly-spacing": [ "error", "always" ],
-      "comma-dangle": [ "error", "only-multiline" ],
-      "eol-last": [ "error", "always" ],
+      "no-warning-comments": "warn",
       "unused-imports/no-unused-imports": "error",
-      "no-warning-comments": "error",
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/consistent-type-definitions": "error",
+      "@stylistic/quotes": [ "error", "double" ],
+      "@stylistic/semi": [ "error", "always" ],
+      "@stylistic/one-var-declaration-per-line": [ "error", "always" ],
+      "@stylistic/object-curly-spacing": [ "error", "always" ],
+      "@stylistic/indent": [ "error", 2 ],
+      "@stylistic/linebreak-style": [ "error", "unix" ],
+      "@stylistic/no-trailing-spaces": "error",
+      "@stylistic/array-bracket-newline": [ "error", { "multiline": true } ],
+      "@stylistic/array-bracket-spacing": [ "error", "always" ],
+      "@stylistic/block-spacing": [ "error", "always" ],
+      "@stylistic/comma-dangle": [ "error", "only-multiline" ],
+      "@stylistic/comma-spacing": [ "error", { "before": false, "after": true } ],
+      "@stylistic/eol-last": [ "error", "always" ],
       "@typescript-eslint/explicit-function-return-type": "error",
       "@typescript-eslint/no-deprecated": "error",
-      "@typescript-eslint/unified-signatures": "error",
-      "@typescript-eslint/await-thenable": "error",
       "@typescript-eslint/naming-convention": [
         "error",
         { selector: "variableLike", format: [ "camelCase" ] },

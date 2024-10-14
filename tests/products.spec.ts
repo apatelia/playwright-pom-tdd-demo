@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/customTest";
 
-test.describe("products Listing Page Tests", { tag: [ "@products_page" ] }, () => {
+test.describe("Products Listing Page Tests", { tag: [ "@products_page" ] }, () => {
   test.beforeEach(async ({ page, loginPage, productsPage }) => {
     await test.step("Given I am on login page", async () => {
       await loginPage.goto();

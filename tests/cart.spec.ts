@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/customTest";
 
-test.describe("cart Feature Tests", { tag: [ "@cart" ] }, () => {
+test.describe("Cart Feature Tests", { tag: [ "@cart" ] }, () => {
   test.beforeEach(async ({ page, loginPage, productsPage }) => {
     await test.step("Given I am on login page", async () => {
       await loginPage.goto();
@@ -58,7 +58,7 @@ test.describe("cart Feature Tests", { tag: [ "@cart" ] }, () => {
       await cartPage.removeProductFromCart(productName);
     });
 
-    await test.step(" Then the cart item badge must not be displayed", async () => {
+    await test.step("Then the cart item badge must not be displayed", async () => {
       await expect.soft(header.cartItemCount).toBeHidden();
       const cartItemCount = await header.getCartItemCount();
       expect.soft(cartItemCount).toStrictEqual(0);

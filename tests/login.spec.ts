@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/customTest";
 
-test.describe("login Feature Test", { tag: [ "@login" ] }, () => {
+test.describe("Login Feature Test", { tag: [ "@login" ] }, () => {
   const validUsers = [
     { username: "standard_user", password: "secret_sauce" },
     { username: "problem_user", password: "secret_sauce" },

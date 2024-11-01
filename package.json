@@ -11,17 +11,17 @@
     "prepare": "husky"
   },
   "keywords": [],
-  "author": "",
+  "author": "Arpan Patelia",
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.48.0",
-    "@stylistic/eslint-plugin": "^2.9.0",
-    "@types/node": "^22.7.5",
-    "eslint": "^9.12.0",
-    "eslint-plugin-playwright": "^1.7.0",
+    "@playwright/test": "^1.48.2",
+    "@stylistic/eslint-plugin": "^2.10.1",
+    "@types/node": "^22.8.6",
+    "eslint": "^9.13.0",
+    "eslint-plugin-playwright": "^2.0.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "husky": "^9.1.6",
-    "monocart-reporter": "^2.9.6",
-    "typescript-eslint": "^8.9.0"
+    "monocart-reporter": "^2.9.7",
+    "typescript-eslint": "^8.12.2"
   }
 }

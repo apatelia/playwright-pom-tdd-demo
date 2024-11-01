@@ -1,6 +1,8 @@
 import { test, expect } from "../fixtures/customTest";
 
-test.describe("Products Listing Page Tests", { tag: [ "@products_page" ] }, () => {
+test.describe("Products Listing Page Tests", {
+  tag: [ "@products_page" ]
+}, () => {
   test.beforeEach(async ({ page, loginPage, productsPage }) => {
     await test.step("Given I am on login page", async () => {
       await loginPage.goto();
@@ -16,7 +18,9 @@ test.describe("Products Listing Page Tests", { tag: [ "@products_page" ] }, () =
     });
   });
 
-  test("add a product to the cart", { tag: [ "@add_to_cart" ] }, async ({ header, productsPage }) => {
+  test("add a product to the cart", {
+    tag: [ "@add_to_cart" ]
+  }, async ({ header, productsPage }) => {
     const productName = "Sauce Labs Backpack";
 
     await test.step("When I add \"Sauce Labs Backpack\" to the cart", async () => {
@@ -29,7 +33,9 @@ test.describe("Products Listing Page Tests", { tag: [ "@products_page" ] }, () =
     });
   });
 
-  test("remove a product from the cart", { tag: [ "@remove_from_cart" ] }, async ({ header, productsPage }) => {
+  test("remove a product from the cart", {
+    tag: [ "@remove_from_cart" ]
+  }, async ({ header, productsPage }) => {
     const productName = "Sauce Labs Bike Light";
 
     await test.step("When I add \"Sauce Labs Bike Light\" to the cart", async () => {
@@ -50,7 +56,9 @@ test.describe("Products Listing Page Tests", { tag: [ "@products_page" ] }, () =
     });
   });
 
-  test("log out should work", { tag: [ "@logout" ] }, async ({ header, loginPage }) => {
+  test("log out should work", {
+    tag: [ "@logout" ]
+  }, async ({ header, loginPage }) => {
     await test.step("When I click Log out from hamburger menu", async () => {
       await header.logout();
     });
@@ -60,69 +68,69 @@ test.describe("Products Listing Page Tests", { tag: [ "@products_page" ] }, () =
     });
   });
 
-  test("footer: Twitter/X link should be present and open SauceLab`s Twitter page",
-    { tag: [ "@footer", "@social_media" ] },
-    async ({ page, footer }) => {
-      await test.step("Given that \"Twitter/X\" link in footer is visible", async () => {
-        await expect.soft(footer.twitterLink).toBeEnabled();
-      });
+  test("footer: Twitter/X link should be present and open SauceLab`s Twitter page", {
+    tag: [ "@footer", "@social_media" ]
+  }, async ({ page, footer }) => {
+    await test.step("Given that \"Twitter/X\" link in footer is visible", async () => {
+      await expect.soft(footer.twitterLink).toBeEnabled();
+    });
 
-      const twitterPagePromise = page.context().waitForEvent("page");
+    const twitterPagePromise = page.context().waitForEvent("page");
 
-      await test.step("When I click \"Twitter/X\" link from footer", async () => {
-        await footer.clickTwitterLink();
-      });
+    await test.step("When I click \"Twitter/X\" link from footer", async () => {
+      await footer.clickTwitterLink();
+    });
 
-      await test.step("Then it should open correct URL in a new tab", async () => {
-        const twitterPage = await twitterPagePromise;
+    await test.step("Then it should open correct URL in a new tab", async () => {
+      const twitterPage = await twitterPagePromise;
 
-        await expect.soft(twitterPage).toHaveURL("https://x.com/saucelabs");
-      });
-    },
-  );
+      await expect.soft(twitterPage).toHaveURL("https://x.com/saucelabs");
+    });
+  });
 
-  test("footer: Facebook link should be present and open SauceLab`s Facebook page",
-    { tag: [ "@footer", "@social_media" ] },
-    async ({ page, footer }) => {
-      await test.step("Given that \"Facebook\" link in footer is visible", async () => {
-        await expect.soft(footer.facebookLink).toBeEnabled();
-      });
+  test("footer: Facebook link should be present and open SauceLab`s Facebook page", {
+    tag: [ "@footer", "@social_media" ]
+  }, async ({ page, footer }) => {
+    await test.step("Given that \"Facebook\" link in footer is visible", async () => {
+      await expect.soft(footer.facebookLink).toBeEnabled();
+    });
 
-      const facebookPagePromise = page.context().waitForEvent("page");
+    const facebookPagePromise = page.context().waitForEvent("page");
 
-      await test.step("When I click \"Facebook\" link from footer", async () => {
-        await footer.clickFacebookLink();
-      });
+    await test.step("When I click \"Facebook\" link from footer", async () => {
+      await footer.clickFacebookLink();
+    });
 
-      await test.step("Then it should open correct URL in a new tab", async () => {
-        const facebookPage = await facebookPagePromise;
+    await test.step("Then it should open correct URL in a new tab", async () => {
+      const facebookPage = await facebookPagePromise;
 
-        await expect.soft(facebookPage).toHaveURL("https://www.facebook.com/saucelabs");
-      });
-    },
-  );
+      await expect.soft(facebookPage).toHaveURL("https://www.facebook.com/saucelabs");
+    });
+  });
 
-  test("footer: LinkedIn link should be present and open SauceLab`s LinkedIn page", { tag: [ "@footer", "@social_media" ] },
-    async ({ page, footer }) => {
-      await test.step("Given that \"LinkedIn\" link in footer is visible", async () => {
-        await expect.soft(footer.linkedInLink).toBeEnabled();
-      });
+  test("footer: LinkedIn link should be present and open SauceLab`s LinkedIn page", {
+    tag: [ "@footer", "@social_media" ]
+  }, async ({ page, footer }) => {
+    await test.step("Given that \"LinkedIn\" link in footer is visible", async () => {
+      await expect.soft(footer.linkedInLink).toBeEnabled();
+    });
 
-      const linkedInPagePromise = page.context().waitForEvent("page");
+    const linkedInPagePromise = page.context().waitForEvent("page");
 
-      await test.step("When I click \"LinkedIn\" link from footer", async () => {
-        await footer.clickLinkedInLink();
-      });
+    await test.step("When I click \"LinkedIn\" link from footer", async () => {
+      await footer.clickLinkedInLink();
+    });
 
-      await test.step("Then it should open correct URL in a new tab", async () => {
-        const linkedInPage = await linkedInPagePromise;
+    await test.step("Then it should open correct URL in a new tab", async () => {
+      const linkedInPage = await linkedInPagePromise;
 
-        await expect.soft(linkedInPage).toHaveURL("https://www.linkedin.com/company/sauce-labs/");
-      });
-    },
-  );
+      await expect.soft(linkedInPage).toHaveURL("https://www.linkedin.com/company/sauce-labs/");
+    });
+  });
 
-  test("footer: Copyright text is visible and is correct", { tag: [ "@footer", "@copyright" ] }, async ({ footer }) => {
+  test("footer: Copyright text is visible and is correct", {
+    tag: [ "@footer", "@copyright" ]
+  }, async ({ footer }) => {
     await test.step("Then copyright text in footer should be visible", async () => {
       await expect.soft(footer.copyrightText).toBeVisible();
     });

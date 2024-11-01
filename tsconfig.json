@@ -1,23 +1,10 @@
 {
-  "ts-node": {
-    "files": true
-  },
   "compilerOptions": {
-    "target": "es2018",
-    "lib": [
-      "es2018",
-      "DOM"
-    ],
-    "esModuleInterop": true,
-    "module": "commonjs",
     "strictNullChecks": true,
-    "types": [
-      "node"
-    ],
-    "declaration": true,
-    "skipLibCheck": true,
-    "moduleDetection": "force"
   },
+  "include": [
+    "**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,6 +1,8 @@
 import { test, expect } from "../fixtures/customTest";
 
-test.describe("Cart Feature Tests", { tag: [ "@cart" ] }, () => {
+test.describe("Cart Feature Tests", {
+  tag: [ "@cart" ]
+}, () => {
   test.beforeEach(async ({ page, loginPage, productsPage }) => {
     await test.step("Given I am on login page", async () => {
       await loginPage.goto();
@@ -16,29 +18,32 @@ test.describe("Cart Feature Tests", { tag: [ "@cart" ] }, () => {
     });
   });
 
-  test("verify product details from the cart", async ({ header, productsPage, cartPage }) => {
-    const productName = "Sauce Labs Backpack";
-    const productPrice = "$29.99";
-    const productQuantity = 1;
+  test("verify product details from the cart",
+    async ({ header, productsPage, cartPage }) => {
+      const productName = "Sauce Labs Backpack";
+      const productPrice = "$29.99";
+      const productQuantity = 1;
 
-    await test.step("When I add \"Sauce Labs Backpack\" to the cart", async () => {
-      await productsPage.addProductToCart(productName);
+      await test.step("When I add \"Sauce Labs Backpack\" to the cart", async () => {
+        await productsPage.addProductToCart(productName);
+      });
+
+      await test.step("And I go to the cart page", async () => {
+        await header.goToCart();
+      });
+
+      await test.step("Then price of the \"Sauce Labs Backpack\" in cart must match \"$29.99\"", async () => {
+        expect.soft(await cartPage.getProductPrice(productName)).toStrictEqual(productPrice);
+      });
+
+      await test.step("And quantity of the \"Sauce Labs Backpack\" in cart must match 1", async () => {
+        expect.soft(await cartPage.getProductQuantity(productName)).toStrictEqual(productQuantity);
+      });
     });
 
-    await test.step("And I go to the cart page", async () => {
-      await header.goToCart();
-    });
-
-    await test.step("Then price of the \"Sauce Labs Backpack\" in cart must match \"$29.99\"", async () => {
-      expect.soft(await cartPage.getProductPrice(productName)).toStrictEqual(productPrice);
-    });
-
-    await test.step("And quantity of the \"Sauce Labs Backpack\" in cart must match 1", async () => {
-      expect.soft(await cartPage.getProductQuantity(productName)).toStrictEqual(productQuantity);
-    });
-  });
-
-  test("remove a product from the cart", { tag: [ "@remove_from_cart" ] }, async ({ header, productsPage, cartPage }) => {
+  test("remove a product from the cart", {
+    tag: [ "@remove_from_cart" ]
+  }, async ({ header, productsPage, cartPage }) => {
     const productName = "Sauce Labs Bike Light";
 
     await test.step("When I add \"Sauce Labs Bike Light\" to the cart", async () => {
@@ -65,7 +70,9 @@ test.describe("Cart Feature Tests", { tag: [ "@cart" ] }, () => {
     });
   });
 
-  test("continue Shopping button takes back to Products page", { tag: [ "@continue_shopping" ] }, async ({ page, header, productsPage, cartPage }) => {
+  test("continue Shopping button takes back to Products page", {
+    tag: [ "@continue_shopping" ]
+  }, async ({ page, header, productsPage, cartPage }) => {
     await test.step("When I go to the cart page", async () => {
       await header.goToCart();
     });
@@ -80,7 +87,9 @@ test.describe("Cart Feature Tests", { tag: [ "@cart" ] }, () => {
     });
   });
 
-  test("clicking `Checkout` button starts checkout", { tag: [ "@checkout" ] }, async ({ page, header, productsPage, cartPage }) => {
+  test("clicking `Checkout` button starts checkout", {
+    tag: [ "@checkout" ]
+  }, async ({ page, header, productsPage, cartPage }) => {
     const productName = "Sauce Labs Fleece Jacket";
 
     await test.step("When I add \"Sauce Labs Fleece Jacket\" to the cart", async () => {

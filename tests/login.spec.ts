@@ -1,31 +1,33 @@
 import { test, expect } from "../fixtures/customTest";
 
-test.describe("Login Feature Test", { tag: [ "@login" ] }, () => {
-  const validUsers = [
-    { username: "standard_user", password: "secret_sauce" },
-    { username: "problem_user", password: "secret_sauce" },
-    { username: "performance_glitch_user", password: "secret_sauce" },
-  ];
+test.describe("Login Feature Test",
+  { tag: [ "@login" ] },
+  () => {
+    const validUsers = [
+      { username: "standard_user", password: "secret_sauce" },
+      { username: "problem_user", password: "secret_sauce" },
+      { username: "performance_glitch_user", password: "secret_sauce" },
+    ];
 
-  const invalidUsers = [
-    { username: "invalid_username", password: "secret_sauce" },
-    { username: "valid_username", password: "invalid_password" },
-    { username: "invalid_username", password: "invalid_password" },
-  ];
+    const invalidUsers = [
+      { username: "invalid_username", password: "secret_sauce" },
+      { username: "valid_username", password: "invalid_password" },
+      { username: "invalid_username", password: "invalid_password" },
+    ];
 
-  const lockedOutUser = {
-    username: "locked_out_user",
-    password: "secret_sauce",
-  };
+    const lockedOutUser = {
+      username: "locked_out_user",
+      password: "secret_sauce",
+    };
 
-  for (const user of validUsers) {
-    const username = user.username;
-    const password = user.password;
+    for (const user of validUsers) {
+      const username = user.username;
+      const password = user.password;
 
-    // Test name/title should be unique for each parameter.
-    test(`Login with valid credentials => '${username}' as username and '${password}' as password`,
-      { tag: [ "@valid_credentials" ] },
-      async ({ page, header, loginPage, productsPage }) => {
+      // Test name/title should be unique for each parameter.
+      test(`login with valid credentials => '${username}' as username and '${password}' as password`, {
+        tag: [ "@valid_credentials" ]
+      }, async ({ page, header, loginPage, productsPage }) => {
         await test.step("Given I am on login page", async () => {
           await loginPage.goto();
         });
@@ -43,18 +45,17 @@ test.describe("Login Feature Test", { tag: [ "@login" ] }, () => {
           await header.logout();
           await expect.soft(loginPage.loginButton).toBeVisible();
         });
-      },
-    );
-  }
+      });
+    }
 
-  for (const user of invalidUsers) {
-    const username = user.username;
-    const password = user.password;
+    for (const user of invalidUsers) {
+      const username = user.username;
+      const password = user.password;
 
-    // Test name/title should be unique for each parameter.
-    test(`Login should fail with invalid credentials => '${username}' as username and '${password}' as password`,
-      { tag: [ "@invalid_credentials" ] },
-      async ({ loginPage }) => {
+      // Test name/title should be unique for each parameter.
+      test(`login should fail with invalid credentials => '${username}' as username and '${password}' as password`, {
+        tag: [ "@invalid_credentials" ]
+      }, async ({ loginPage }) => {
         await test.step("Given I am on login page", async () => {
           await loginPage.goto();
         });
@@ -68,23 +69,24 @@ test.describe("Login Feature Test", { tag: [ "@login" ] }, () => {
           const errorText = loginPage.errorMessage;
           await expect.soft(errorText).toHaveText("Epic sadface: Username and password do not match any user in this service");
         });
-      },
-    );
-  }
+      });
+    }
 
-  test("locked out user should not be able to login with valid credentials", { tag: [ "@locked_out_user" ] }, async ({ loginPage }) => {
-    await test.step("Given I am on login page", async () => {
-      await loginPage.goto();
-    });
+    test("locked out user should not be able to login with valid credentials", {
+      tag: [ "@locked_out_user" ]
+    }, async ({ loginPage }) => {
+      await test.step("Given I am on login page", async () => {
+        await loginPage.goto();
+      });
 
-    await test.step("When I try to login with a disabled username and a valid password", async () => {
-      await loginPage.login(lockedOutUser.username, lockedOutUser.password);
-    });
+      await test.step("When I try to login with a disabled username and a valid password", async () => {
+        await loginPage.login(lockedOutUser.username, lockedOutUser.password);
+      });
 
-    await test.step("Then I should see an appropriate error message", async () => {
-      await expect.soft(loginPage.errorMessage).toBeVisible();
-      const errorText = loginPage.errorMessage;
-      await expect.soft(errorText).toHaveText("Epic sadface: Sorry, this user has been locked out.");
+      await test.step("Then I should see an appropriate error message", async () => {
+        await expect.soft(loginPage.errorMessage).toBeVisible();
+        const errorText = loginPage.errorMessage;
+        await expect.soft(errorText).toHaveText("Epic sadface: Sorry, this user has been locked out.");
+      });
     });
   });
-});

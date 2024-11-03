@@ -1,24 +1,9 @@
 import { test, expect } from "../fixtures/customTest";
+import { validUsers, invalidUsers, lockedOutUser } from "../test-data/user.data";
 
 test.describe("Login Feature Test",
   { tag: [ "@login" ] },
   () => {
-    const validUsers = [
-      { username: "standard_user", password: "secret_sauce" },
-      { username: "problem_user", password: "secret_sauce" },
-      { username: "performance_glitch_user", password: "secret_sauce" },
-    ];
-
-    const invalidUsers = [
-      { username: "invalid_username", password: "secret_sauce" },
-      { username: "valid_username", password: "invalid_password" },
-      { username: "invalid_username", password: "invalid_password" },
-    ];
-
-    const lockedOutUser = {
-      username: "locked_out_user",
-      password: "secret_sauce",
-    };
 
     for (const user of validUsers) {
       const username = user.username;

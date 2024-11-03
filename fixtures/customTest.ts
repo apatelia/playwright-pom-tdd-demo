@@ -1,10 +1,10 @@
 import { test as baseTest } from "@playwright/test";
-import { LoginPage } from "../pages/loginPage";
-import { ProductsPage } from "../pages/productsPage";
-import { CartPage } from "../pages/cartPage";
-import { CheckoutStepOnePage } from "../pages/checkoutStepOnePage";
-import { CheckoutStepTwoPage } from "../pages/checkoutStepTwoPage";
-import { CheckoutCompletePage } from "../pages/checkoutCompletePage";
+import { LoginPage } from "../pages/login.page";
+import { ProductsPage } from "../pages/products.page";
+import { CartPage } from "../pages/cart.page";
+import { CheckoutStepOnePage } from "../pages/checkoutStepOne.page";
+import { CheckoutStepTwoPage } from "../pages/checkoutStepTwo.page";
+import { CheckoutCompletePage } from "../pages/checkoutComplete.page";
 import { Header } from "../pages/fragments/header";
 import { Footer } from "../pages/fragments/footer";
 

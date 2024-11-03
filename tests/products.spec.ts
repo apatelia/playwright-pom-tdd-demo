@@ -1,4 +1,5 @@
 import { test, expect } from "../fixtures/customTest";
+import { products } from "../test-data/products.data";
 
 test.describe("Products Listing Page Tests", {
   tag: [ "@products_page" ]
@@ -8,8 +9,8 @@ test.describe("Products Listing Page Tests", {
       await loginPage.goto();
     });
 
-    await test.step("When I try to login with \"standard_user\" as username and \"secret_sauce\" as password", async () => {
-      await loginPage.login("standard_user", "secret_sauce");
+    await test.step("When I try to login as a valid user", async () => {
+      await loginPage.loginAsStandardUser();
     });
 
     await test.step("Then I should be on Products page", async () => {
@@ -21,9 +22,10 @@ test.describe("Products Listing Page Tests", {
   test("add a product to the cart", {
     tag: [ "@add_to_cart" ]
   }, async ({ header, productsPage }) => {
-    const productName = "Sauce Labs Backpack";
+    // const productName = "Sauce Labs Backpack";
+    const productName = products.backpack.name;
 
-    await test.step("When I add \"Sauce Labs Backpack\" to the cart", async () => {
+    await test.step(`When I add ${productName} to the cart`, async () => {
       await productsPage.addProductToCart(productName);
     });
 
@@ -36,9 +38,10 @@ test.describe("Products Listing Page Tests", {
   test("remove a product from the cart", {
     tag: [ "@remove_from_cart" ]
   }, async ({ header, productsPage }) => {
-    const productName = "Sauce Labs Bike Light";
+    // const productName = "Sauce Labs Bike Light";
+    const productName = products.bikeLight.name;
 
-    await test.step("When I add \"Sauce Labs Bike Light\" to the cart", async () => {
+    await test.step(`When I add ${productName} to the cart`, async () => {
       await productsPage.addProductToCart(productName);
     });
 
@@ -47,7 +50,7 @@ test.describe("Products Listing Page Tests", {
       expect.soft(cartItemCount).toStrictEqual(1);
     });
 
-    await test.step("Then I should be able to remove \"Sauce Labs Bike Light\" from the cart, using the Remove button", async () => {
+    await test.step(`Then I should be able to remove ${productName} from the cart, using the Remove button`, async () => {
       await productsPage.removeProductFromCart(productName);
     });
 

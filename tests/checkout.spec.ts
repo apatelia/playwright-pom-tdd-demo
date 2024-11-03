@@ -1,4 +1,5 @@
 import { test, expect } from "../fixtures/customTest";
+import { products } from "../test-data/products.data";
 
 test.describe("Checkout Feature Tests", {
   tag: [ "@checkout" ]
@@ -8,8 +9,8 @@ test.describe("Checkout Feature Tests", {
       await loginPage.goto();
     });
 
-    await test.step("When I try to login with \"standard_user\" as username and \"secret_sauce\" as password", async () => {
-      await loginPage.login("standard_user", "secret_sauce");
+    await test.step("When I try to login as a valid user", async () => {
+      await loginPage.loginAsStandardUser();
     });
 
     await test.step("Then I should be on Products page", async () => {
@@ -21,11 +22,11 @@ test.describe("Checkout Feature Tests", {
   test("place an order", {
     tag: [ "@order" ]
   }, async ({ page, header, productsPage, cartPage, checkoutStepOnePage, checkoutStepTwoPage, checkoutCompletePage }) => {
-    const productName = "Sauce Labs Backpack";
-    const productPrice = "$29.99";
+    const productName = products.backpack.name;
+    const productPrice = products.backpack.price;
     const productQuantity = 1;
 
-    await test.step("When I add \"Sauce Labs Backpack\" to the cart", async () => {
+    await test.step(`When I add ${productName} to the cart`, async () => {
       await productsPage.addProductToCart(productName);
     });
 
@@ -65,8 +66,9 @@ test.describe("Checkout Feature Tests", {
   test("clicking `Back Home` button takes back to `Products` page", {
     tag: [ "@back_to_home" ]
   }, async ({ page, header, productsPage, cartPage, checkoutStepOnePage, checkoutStepTwoPage, checkoutCompletePage }) => {
-    const productName = "Sauce Labs Fleece Jacket";
-    await test.step("When I add \"Sauce Labs Fleece Jacket\" to the cart", async () => {
+    const productName = products.fleeceJacket.name;
+
+    await test.step(`When I add ${productName} to the cart`, async () => {
       await productsPage.addProductToCart(productName);
     });
 

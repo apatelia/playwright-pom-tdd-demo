@@ -51,8 +51,7 @@ test.describe("Login Feature Test",
 
         await test.step("Then I should see invalid credentials error message", async () => {
           await expect.soft(loginPage.errorMessage).toBeVisible();
-          const errorText = loginPage.errorMessage;
-          await expect.soft(errorText).toHaveText("Epic sadface: Username and password do not match any user in this service");
+          await expect.soft(loginPage.errorMessage).toHaveText("Epic sadface: Username and password do not match any user in this service");
         });
       });
     }
@@ -70,8 +69,7 @@ test.describe("Login Feature Test",
 
       await test.step("Then I should see an appropriate error message", async () => {
         await expect.soft(loginPage.errorMessage).toBeVisible();
-        const errorText = loginPage.errorMessage;
-        await expect.soft(errorText).toHaveText("Epic sadface: Sorry, this user has been locked out.");
+        await expect.soft(loginPage.errorMessage).toHaveText("Epic sadface: Sorry, this user has been locked out.");
       });
     });
   });

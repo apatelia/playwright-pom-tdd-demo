@@ -92,6 +92,7 @@ export default [
       "@stylistic/array-bracket-newline": [ "error", { "multiline": true } ],
       "@stylistic/array-bracket-spacing": [ "error", "always" ],
       "@stylistic/block-spacing": [ "error", "always" ],
+      "@stylistic/space-before-function-paren": "error",
       "@stylistic/comma-dangle": [ "error", "only-multiline" ],
       "@stylistic/comma-spacing": [ "error", { "before": false, "after": true } ],
       "@stylistic/eol-last": [ "error", "always" ],
@@ -103,13 +104,19 @@ export default [
         "error",
         { selector: "variableLike", format: [ "camelCase" ] },
         { selector: "memberLike", format: [ "camelCase" ] },
+        { selector: "typeLike", format: [ "PascalCase" ] },
+        { selector: "enumMember", format: [ "PascalCase" ] },
         {
           selector: "memberLike",
           modifiers: [ "private" ],
           format: [ "camelCase" ],
           leadingUnderscore: "require"
         },
-        { selector: "typeLike", format: [ "PascalCase" ] },
+        {
+          selector: "memberLike",
+          modifiers: [ "static", "readonly" ],
+          format: [ "UPPER_CASE" ],
+        },
         {
           selector: "interface",
           format: [ "PascalCase" ],
@@ -118,10 +125,6 @@ export default [
             match: false
           }
         },
-        {
-          selector: "function",
-          format: [ "camelCase" ]
-        }
       ]
     }
   }

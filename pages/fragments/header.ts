@@ -8,7 +8,7 @@ export class Header {
   readonly cartLink: Locator;
   readonly cartItemCount: Locator;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
     this.hamburgerMenuButton = page.getByRole("button", { name: "Open Menu" });
     this.logoutMenuEntry = page.getByRole("link", { name: "Logout" });
@@ -17,20 +17,20 @@ export class Header {
     this.cartItemCount = page.getByTestId("shopping-cart-badge");
   }
 
-  async logout(): Promise<void> {
+  async logout (): Promise<void> {
     await this.hamburgerMenuButton.click();
     await this.logoutMenuEntry.click();
   }
 
-  async closeMenu(): Promise<void> {
+  async closeMenu (): Promise<void> {
     await this.hamburgerMenuCloseButton.click();
   }
 
-  async goToCart(): Promise<void> {
+  async goToCart (): Promise<void> {
     await this.cartLink.click();
   }
 
-  async getCartItemCount(): Promise<number> {
+  async getCartItemCount (): Promise<number> {
     let itemCount = 0;
 
     if (await this.cartItemCount.isVisible()) {

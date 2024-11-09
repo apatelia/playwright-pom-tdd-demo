@@ -8,7 +8,7 @@ export class CheckoutStepOnePage {
   readonly cancelButton: Locator;
   readonly continueButton: Locator;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
     this.firstName = page.getByPlaceholder("First Name");
     this.lastName = page.getByPlaceholder("Last Name");
@@ -17,19 +17,19 @@ export class CheckoutStepOnePage {
     this.continueButton = page.getByRole("button", { name: "Continue" });
   }
 
-  async goto(): Promise<void> {
+  async goto (): Promise<void> {
     await this.page.goto("/checkout-step-one.html");
   }
 
-  async doCancelCheckout(): Promise<void> {
+  async doCancelCheckout (): Promise<void> {
     await this.cancelButton.click();
   }
 
-  async doCheckout(): Promise<void> {
+  async doCheckout (): Promise<void> {
     await this.continueButton.click();
   }
 
-  async fillCustomerInformation(): Promise<void> {
+  async fillCustomerInformation (): Promise<void> {
     await this.firstName.fill("FirstName");
     await this.lastName.fill("LastName");
     await this.zipCode.fill("000000");

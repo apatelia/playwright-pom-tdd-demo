@@ -6,7 +6,7 @@ export class CheckoutCompletePage {
   readonly backHomeButton: Locator;
   readonly finishButton: Locator;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
     this.thankYouHeading = page.getByRole("heading", { name: "THANK YOU FOR YOUR ORDER" });
     this.backHomeButton = page.getByRole("button", { name: "BACK HOME" });

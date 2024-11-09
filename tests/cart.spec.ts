@@ -19,28 +19,29 @@ test.describe("Cart Feature Tests", {
     });
   });
 
-  test("verify product details from the cart",
-    async ({ header, productsPage, cartPage }) => {
-      const productName = products.backpack.name;
-      const productPrice = products.backpack.price;
-      const productQuantity = 1;
+  test("verify product details from the cart", {
+    tag: [ "@cart_details" ]
+  }, async ({ header, productsPage, cartPage }) => {
+    const productName = products.backpack.name;
+    const productPrice = products.backpack.price;
+    const productQuantity = 1;
 
-      await test.step(`When I add ${productName} to the cart`, async () => {
-        await productsPage.addProductToCart(productName);
-      });
-
-      await test.step("And I go to the cart page", async () => {
-        await header.goToCart();
-      });
-
-      await test.step(`Then price of the ${productName} in cart must match ${productPrice}"`, async () => {
-        expect.soft(await cartPage.getProductPrice(productName)).toStrictEqual(productPrice);
-      });
-
-      await test.step(`And quantity of the ${productName} in cart must match 1`, async () => {
-        expect.soft(await cartPage.getProductQuantity(productName)).toStrictEqual(productQuantity);
-      });
+    await test.step(`When I add ${productName} to the cart`, async () => {
+      await productsPage.addProductToCart(productName);
     });
+
+    await test.step("And I go to the cart page", async () => {
+      await header.goToCart();
+    });
+
+    await test.step(`Then price of the ${productName} in cart must match ${productPrice}"`, async () => {
+      expect.soft(await cartPage.getProductPrice(productName)).toStrictEqual(productPrice);
+    });
+
+    await test.step(`And quantity of the ${productName} in cart must match 1`, async () => {
+      expect.soft(await cartPage.getProductQuantity(productName)).toStrictEqual(productQuantity);
+    });
+  });
 
   test("remove a product from the cart", {
     tag: [ "@remove_from_cart" ]

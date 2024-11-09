@@ -8,7 +8,7 @@ export class LoginPage {
   readonly loginButton: Locator;
   readonly errorMessage: Locator;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
     this.username = page.getByTestId("username");
     this.password = page.getByTestId("password");
@@ -16,17 +16,17 @@ export class LoginPage {
     this.errorMessage = page.getByTestId("error");
   }
 
-  async goto(): Promise<void> {
+  async goto (): Promise<void> {
     await this.page.goto("/");
   }
 
-  async login(username: string, password: string): Promise<void> {
+  async login (username: string, password: string): Promise<void> {
     await this.username.fill(username);
     await this.password.fill(password);
     await this.loginButton.click();
   }
 
-  async loginAsStandardUser(): Promise<void> {
+  async loginAsStandardUser (): Promise<void> {
     await this.login(standardUser.username, standardUser.password);
   }
 }

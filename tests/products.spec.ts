@@ -22,7 +22,6 @@ test.describe("Products Listing Page Tests", {
   test("add a product to the cart", {
     tag: [ "@add_to_cart" ]
   }, async ({ header, productsPage }) => {
-    // const productName = "Sauce Labs Backpack";
     const productName = products.backpack.name;
 
     await test.step(`When I add ${productName} to the cart`, async () => {
@@ -38,7 +37,6 @@ test.describe("Products Listing Page Tests", {
   test("remove a product from the cart", {
     tag: [ "@remove_from_cart" ]
   }, async ({ header, productsPage }) => {
-    // const productName = "Sauce Labs Bike Light";
     const productName = products.bikeLight.name;
 
     await test.step(`When I add ${productName} to the cart`, async () => {

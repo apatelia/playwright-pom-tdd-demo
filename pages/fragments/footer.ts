@@ -7,7 +7,7 @@ export class Footer {
   readonly linkedInLink: Locator;
   readonly copyrightText: Locator;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
     this.twitterLink = page.getByRole("link", { name: "Twitter" });
     this.facebookLink = page.getByRole("link", { name: "Facebook" });
@@ -15,19 +15,19 @@ export class Footer {
     this.copyrightText = page.getByTestId("footer-copy");
   }
 
-  async clickTwitterLink(): Promise<void> {
+  async clickTwitterLink (): Promise<void> {
     await this.twitterLink.click();
   }
 
-  async clickFacebookLink(): Promise<void> {
+  async clickFacebookLink (): Promise<void> {
     await this.facebookLink.click();
   }
 
-  async clickLinkedInLink(): Promise<void> {
+  async clickLinkedInLink (): Promise<void> {
     await this.linkedInLink.click();
   }
 
-  async getCopyrightTextContent(): Promise<string> {
+  async getCopyrightTextContent (): Promise<string> {
     return `${await this.copyrightText.textContent()}`;
   }
 }

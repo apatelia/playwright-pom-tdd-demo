@@ -11,29 +11,35 @@ This repository contains an automated test framework example using [Playwright](
 cd playwright-pom-tdd-demo
 ```
 
-3. Install dependencies.
+3. Install `pnpm`.
 
 ```sh
-npm install
+npm install -g pnpm
 ```
 
-4. Install browsers.
+4. Install dependencies.
 
 ```sh
-npx playwright install
+pnpm install
 ```
 
-5. Run test(s).
+5. Install browsers.
 
 ```sh
-npx playwright test
-
-# or
-npm run test
+pnpm playwright install
 ```
 
-6. View the test execution report.
+6. Run test(s).
 
 ```sh
-npm run report
+pnpm playwright test
+
+# or simply
+pnpm test
+```
+
+7. View the test execution report.
+
+```sh
+pnpm report
 ```

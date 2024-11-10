@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
-    "report": "npx monocart show-report test-report/report.html",
-    "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix",
+    "test": "playwright test",
+    "report": "monocart show-report test-report/report.html",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "prepare": "husky"
   },
   "keywords": [],
@@ -16,12 +16,12 @@
   "devDependencies": {
     "@playwright/test": "^1.48.2",
     "@stylistic/eslint-plugin": "^2.10.1",
-    "@types/node": "^22.8.7",
+    "@types/node": "^22.9.0",
     "eslint": "^9.14.0",
-    "eslint-plugin-playwright": "^2.0.0",
+    "eslint-plugin-playwright": "^2.0.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "husky": "^9.1.6",
-    "monocart-reporter": "^2.9.7",
-    "typescript-eslint": "^8.12.2"
+    "monocart-reporter": "^2.9.10",
+    "typescript-eslint": "^8.13.0"
   }
 }

@@ -19,7 +19,7 @@ export default [
   },
   {
     languageOptions: {
-      globals: globals.browser,
+      globals: globals.node,
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname
@@ -36,48 +36,8 @@ export default [
     }
   },
   {
-    ...playwright.configs[ "flat/recommended" ],
-    files: [ "tests/**", "pages/**" ],
     rules: {
-      "playwright/no-commented-out-tests": "error",
-      "playwright/no-focused-test": "error",
-      "playwright/no-skipped-test": [ "error", { "allowConditional": true } ],
-      "playwright/valid-title": "error",
-      "playwright/prefer-lowercase-title": [ "warn", { "ignore": [ "test.describe" ], "ignoreTopLevelDescribe": true } ],
-      "playwright/require-soft-assertions": "warn",
-      "playwright/prefer-web-first-assertions": "error",
-      "playwright/prefer-comparison-matcher": "error",
-      "playwright/prefer-equality-matcher": "error",
-      "playwright/prefer-strict-equal": "error",
-      "playwright/prefer-to-have-count": "error",
-      "playwright/prefer-to-have-length": "error",
-      "playwright/prefer-native-locators": [ "error", { "testIdAttribute": "data-test" } ],
-      "playwright/no-raw-locators": "warn",
-      "playwright/no-networkidle": "error",
-      "playwright/no-wait-for-timeout": "error",
-      "playwright/no-wait-for-selector": "error",
-      "playwright/no-eval": "error",
-    },
-  },
-  {
-    "settings": {
-      "playwright": {
-        "messages": {
-          "noWaitForTimeout": "Avoid using 'page.waitForTimeout()'. It makes tests unreliable. Use Playwright's web first assertions instead.",
-          "noWaitForSelector": "Use of 'page.waitForSelector()' is discouraged. Use 'locator.waitFor()' instead.",
-          "noNetworkidle": "Do not wait for 'NetworkIdle' load-state. It is discouraged. Use Playwright's web first assertions instead.",
-          "noFocusedTest": "Remove 'Only' annotation. Focused tests are not allowed in source code repository.",
-          "noSkippedTest": "Remove 'Skip' annotation. Skipped tests are not allowed in source code repository.",
-          "commentedTests": "Remove commented test. Commented tests are not allowed in source code repository.",
-          "noEval": "Do not use 'page.$eval()'. Use 'locator.evaluate()' instead.",
-          "noEvalAll": "Do not use 'page.$$eval()'. Use 'locator.evaluateAll()' instead.",
-          "requireSoft": "Try to use 'expect.soft()' assertion. Use of 'expect.soft()' assertion is a recommended practice."
-        }
-      }
-    }
-  },
-  {
-    rules: {
+      "no-unused-vars": "off",
       "eqeqeq": [ "error", "smart" ],
       "no-console": "error",
       "no-warning-comments": "warn",
@@ -100,6 +60,14 @@ export default [
       "@typescript-eslint/await-thenable": "error",
       "@typescript-eslint/explicit-function-return-type": "error",
       "@typescript-eslint/no-deprecated": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "all",
+          "caughtErrors": "all",
+        }
+      ],
       "@typescript-eslint/naming-convention": [
         "error",
         { selector: "variableLike", format: [ "camelCase" ] },
@@ -127,5 +95,47 @@ export default [
         },
       ]
     }
-  }
+  },
+  {
+    // Playwright specific linting rules.
+    ...playwright.configs[ "flat/recommended" ],
+    files: [ "tests/**", "pages/**" ],
+    rules: {
+      "playwright/no-commented-out-tests": "error",
+      "playwright/no-focused-test": "error",
+      "playwright/no-skipped-test": [ "error", { "allowConditional": true } ],
+      "playwright/valid-title": "error",
+      "playwright/prefer-lowercase-title": [ "warn", { "ignore": [ "test.describe" ], "ignoreTopLevelDescribe": true } ],
+      "playwright/require-soft-assertions": "warn",
+      "playwright/prefer-web-first-assertions": "error",
+      "playwright/prefer-comparison-matcher": "error",
+      "playwright/prefer-equality-matcher": "error",
+      "playwright/prefer-strict-equal": "error",
+      "playwright/prefer-to-have-count": "error",
+      "playwright/prefer-to-have-length": "error",
+      "playwright/prefer-native-locators": [ "error", { "testIdAttribute": "data-test" } ],
+      "playwright/no-raw-locators": "warn",
+      "playwright/no-networkidle": "error",
+      "playwright/no-wait-for-timeout": "error",
+      "playwright/no-wait-for-selector": "error",
+      "playwright/no-eval": "error",
+    },
+  },
+  {
+    settings: {
+      playwright: {
+        messages: {
+          noWaitForTimeout: "Avoid using 'page.waitForTimeout()'. It makes tests unreliable. Use Playwright's web first assertions instead.",
+          noWaitForSelector: "Use of 'page.waitForSelector()' is discouraged. Use 'locator.waitFor()' instead.",
+          noNetworkidle: "Do not wait for 'NetworkIdle' load-state. It is discouraged. Use Playwright's web first assertions instead.",
+          noFocusedTest: "Remove 'Only' annotation. Focused tests are not allowed in source code repository.",
+          noSkippedTest: "Remove 'Skip' annotation. Skipped tests are not allowed in source code repository.",
+          commentedTests: "Remove commented test. Commented tests are not allowed in source code repository.",
+          noEval: "Do not use 'page.$eval()'. Use 'locator.evaluate()' instead.",
+          noEvalAll: "Do not use 'page.$$eval()'. Use 'locator.evaluateAll()' instead.",
+          requireSoft: "Try to use 'expect.soft()' assertion. Use of 'expect.soft()' assertion is a recommended practice."
+        }
+      }
+    }
+  },
 ];

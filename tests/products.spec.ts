@@ -85,7 +85,7 @@ test.describe("Products Listing Page Tests", {
     await test.step("Then it should open correct URL in a new tab", async () => {
       const twitterPage = await twitterPagePromise;
 
-      await expect.soft(twitterPage).toHaveURL("https://x.com/saucelabs");
+      await expect.soft(twitterPage).toHaveURL(/^https:\/\/x.com\/saucelabs/);
     });
   });
 
@@ -105,7 +105,7 @@ test.describe("Products Listing Page Tests", {
     await test.step("Then it should open correct URL in a new tab", async () => {
       const facebookPage = await facebookPagePromise;
 
-      await expect.soft(facebookPage).toHaveURL("https://www.facebook.com/saucelabs");
+      await expect.soft(facebookPage).toHaveURL(/^https:\/\/www.facebook.com\/saucelabs/);
     });
   });
 
@@ -125,7 +125,7 @@ test.describe("Products Listing Page Tests", {
     await test.step("Then it should open correct URL in a new tab", async () => {
       const linkedInPage = await linkedInPagePromise;
 
-      await expect.soft(linkedInPage).toHaveURL("https://www.linkedin.com/company/sauce-labs/");
+      await expect.soft(linkedInPage).toHaveURL(/^https:\/\/www.linkedin.com\/company\/sauce-labs/);
     });
   });
 

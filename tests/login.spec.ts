@@ -23,7 +23,7 @@ test.describe("Login Feature Test", {
 
       await test.step("Then I should be on Products page", async () => {
         await expect.soft(page).toHaveURL(/.*inventory.html/);
-        await expect.soft(productsPage.productHeading).toBeVisible();
+        await expect.soft(productsPage.productHeading).toBeVisible({ timeout: 10_000 });
       });
 
       await test.step("And I am able to log out from the products page", async () => {

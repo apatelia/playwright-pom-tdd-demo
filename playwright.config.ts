@@ -25,23 +25,13 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : 6,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    [ "line" ],
     [
-      "monocart-reporter",
+      "@arpanp/zen-reporter",
       {
-        name: "Test Run Report",
-        outputFile: "./test-report/report.html",
-        groupOptions: {
-          group: true,
-          shard: true,
-          project: true,
-          file: true,
-          describe: true,
-          step: true,
-          merge: true,
-        },
-      },
-    ],
+        projectName: "Playwright POM Demo",
+        singleSummaryFile: true,
+      }
+    ]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -66,12 +56,12 @@ const config: PlaywrightTestConfig = {
       },
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: {
-    //     ...devices['Desktop Firefox'],
-    //   },
-    // },
+    {
+      name: "firefox",
+      use: {
+        ...devices[ "Desktop Firefox" ],
+      },
+    },
 
     // {
     //   name: 'webkit',

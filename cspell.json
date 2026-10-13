@@ -1,0 +1,22 @@
+{
+  "version": "0.2",
+  "ignorePaths": [
+    "package.json",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "node_modules",
+    ".vscode",
+    "zen-report"
+  ],
+  "language": "en-US",
+  "ignoreRandomStrings": true,
+  "dictionaryDefinitions": [],
+  "dictionaries": [],
+  "words": [
+    "arpanp",
+    "commonmark",
+    "sadface"
+  ],
+  "ignoreWords": [],
+  "import": []
+}

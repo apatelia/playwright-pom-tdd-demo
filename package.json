@@ -2,10 +2,9 @@
   "name": "playwright-pom-tdd-demo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "playwright test",
-    "report": "monocart show-report test-report/report.html",
+    "report": "zr show",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky"
@@ -14,16 +13,21 @@
   "author": "Arpan Patelia",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/js": "^9.29.0",
-    "@playwright/test": "^1.53.0",
-    "@stylistic/eslint-plugin": "^4.4.1",
-    "@types/node": "^24.0.1",
-    "eslint": "^9.29.0",
-    "eslint-plugin-playwright": "^2.2.0",
-    "eslint-plugin-unused-imports": "^4.1.4",
-    "globals": "^16.2.0",
+    "@arpanp/zen-reporter": "^0.14.1",
+    "@cspell/eslint-plugin": "^10.3.6",
+    "@duckdb/node-api": "1.5.6-r.1",
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.1.1",
+    "@eslint/markdown": "^8.0.3",
+    "@playwright/test": "^1.64.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^26.6.5",
+    "cspell": "^10.3.6",
+    "eslint": "^10.12.0",
+    "eslint-plugin-playwright": "^2.12.1",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "globals": "^17.13.0",
     "husky": "^9.1.7",
-    "monocart-reporter": "^2.9.21",
-    "typescript-eslint": "^8.34.0"
+    "typescript-eslint": "^8.71.1"
   }
 }

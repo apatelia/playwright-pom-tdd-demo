@@ -11,7 +11,7 @@ export class Header {
   constructor (page: Page) {
     this.page = page;
     this.hamburgerMenuButton = page.getByRole("button", { name: "Open Menu" });
-    this.logoutMenuEntry = page.getByRole("link", { name: "Logout" });
+    this.logoutMenuEntry = page.getByRole("button", { name: "Logout" });
     this.hamburgerMenuCloseButton = page.getByRole("button", { name: "Close Menu" });
     this.cartLink = page.getByTestId("shopping-cart-link");
     this.cartItemCount = page.getByTestId("shopping-cart-badge");

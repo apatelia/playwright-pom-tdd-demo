@@ -9,7 +9,7 @@ export class Footer {
 
   constructor (page: Page) {
     this.page = page;
-    this.twitterLink = page.getByRole("link", { name: "Twitter" });
+    this.twitterLink = page.getByRole("link", { name: "X" });
     this.facebookLink = page.getByRole("link", { name: "Facebook" });
     this.linkedInLink = page.getByRole("link", { name: "LinkedIn" });
     this.copyrightText = page.getByTestId("footer-copy");

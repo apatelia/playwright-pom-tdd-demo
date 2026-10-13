@@ -11,7 +11,7 @@ export class CartPage {
     this.page = page;
     this.cartHeading = page.getByTestId("title");
     this.allProductsInCart = page.getByTestId("inventory-item");
-    this.continueShoppingButton = page.getByRole("button", { name: "Go back CONTINUE SHOPPING" });
+    this.continueShoppingButton = page.getByRole("button", { name: "Continue Shopping" });
     this.checkoutButton = page.getByRole("button", { name: "CHECKOUT" });
   }
 

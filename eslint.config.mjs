@@ -1,41 +1,46 @@
+import cSpellConfigs from "@cspell/eslint-plugin/configs";
 import eslintJs from "@eslint/js";
+import json from "@eslint/json";
+import markdown from "@eslint/markdown";
 import stylistic from "@stylistic/eslint-plugin";
 import playwright from "eslint-plugin-playwright";
 import unusedImports from "eslint-plugin-unused-imports";
+import { defineConfig } from 'eslint/config';
 import globals from "globals";
 import teslint from "typescript-eslint";
 
-export default [
+export default defineConfig([
   {
-    files: [ "**/*.{js,ts}" ]
-  },
-  {
+    // Ignore specific files and directories from linting.
     ignores: [
       "eslint.config.mjs",
       "node_modules/*",
       "test-report/*",
-      "test-results/*"
+      "test-results/*",
+      "zen-report/*"
     ]
   },
   {
+    // General linting rules for JavaScript and TypeScript files.
+    files: [ "**/*.{js,ts}" ],
     languageOptions: {
       globals: globals.node,
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: [ 'eslint.config.mjs' ]
+        },
         tsconfigRootDir: import.meta.dirname
       }
-    }
-  },
-  eslintJs.configs.recommended,
-  ...teslint.configs.recommended,
-  ...teslint.configs.stylistic,
-  {
+    },
+    extends: [
+      eslintJs.configs.recommended,
+      ...teslint.configs.recommended,
+      ...teslint.configs.stylistic,
+    ],
     plugins: {
       "@stylistic": stylistic,
       "unused-imports": unusedImports,
-    }
-  },
-  {
+    },
     rules: {
       "no-unused-vars": "off",
       "eqeqeq": [ "error", "smart" ],
@@ -98,8 +103,8 @@ export default [
   },
   {
     // Playwright specific linting rules.
-    ...playwright.configs[ "flat/recommended" ],
     files: [ "tests/**", "pages/**" ],
+    extends: [ playwright.configs[ "flat/recommended" ] ],
     rules: {
       "playwright/no-commented-out-tests": "error",
       "playwright/no-focused-test": "error",
@@ -122,6 +127,7 @@ export default [
     },
   },
   {
+    // Playwright specific linting rules with custom messages.
     settings: {
       playwright: {
         messages: {
@@ -138,4 +144,24 @@ export default [
       }
     }
   },
-];
+  {
+    // JSON specific linting rules.
+    files: [ "**/*.json" ],
+    plugins: {
+      json
+    },
+    language: 'json/json',
+    extends: [ 'json/recommended' ]
+  },
+  {
+    // Markdown specific linting rules.
+    files: [ "**/*.md" ],
+    plugins: {
+      markdown
+    },
+    language: 'markdown/commonmark',
+    extends: [ 'markdown/recommended' ]
+  },
+  // cSpell specific linting rules.
+  cSpellConfigs.recommended
+]);

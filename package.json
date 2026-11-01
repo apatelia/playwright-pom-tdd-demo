@@ -13,7 +13,7 @@
   "author": "Arpan Patelia",
   "license": "MIT",
   "devDependencies": {
-    "@arpanp/zen-reporter": "^0.17.0",
+    "@arpanp/zen-reporter": "^0.18.0",
     "@cspell/eslint-plugin": "^10.4.0",
     "@duckdb/node-api": "1.5.6-r.1",
     "@eslint/js": "^10.0.1",
